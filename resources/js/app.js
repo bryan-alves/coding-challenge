@@ -1,5 +1,6 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import '../css/app.css'
 
 const pages = import.meta.glob('./pages/**/*.vue') // importa todas as páginas automaticamente
 
