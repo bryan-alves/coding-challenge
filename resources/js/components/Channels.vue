@@ -1,44 +1,49 @@
 <script setup>
-import { ref } from "vue";
+import { useGlobalStore } from "../stores/global";
+
+const emit = defineEmits(["openModal"]);
 
 defineProps({
   channels: Array,
 });
 
-const selectedChannel = ref("all");
+const store = useGlobalStore();
 
-function changeChannel(channel) {
-  selectedChannel.value = channel;
+function openModal() {
+  emit("openModal");
 }
 </script>
 
 <template>
   <div class="channels">
-    <div
-      class="channels__item channels__item--start"
-      :class="{ 'channels__item--selected': selectedChannel === 'all' }"
-      title="Veja todas as suas mensagens!"
-      @click="changeChannel('all')"
-    >
-      <img :src="`http://localhost:8000/images/channels/messages.svg`" alt="" />
-    </div>
     <div style="display: flex; gap: 1rem">
+      <div
+        class="channels__item channels__item--start"
+        :class="{ 'channels__item--selected': store.selectedChannel === 'all' }"
+        title="Veja todas as suas mensagens!"
+        @click="store.changeChannel('all')"
+      >
+        <img :src="`http://localhost:8000/images/channels/messages.svg`" alt="" />
+      </div>
       <div
         class="channels__item"
         v-for="channel in channels"
         :key="channel"
-        :class="{ 'channels__item--selected': selectedChannel === channel }"
+        :class="{ 'channels__item--selected': store.selectedChannel === channel }"
         :title="`Veja somente suas mensagens do ${channel}!`"
-        @click="changeChannel(channel)"
+        @click="store.changeChannel(channel)"
       >
         <img :src="`http://localhost:8000/images/channels/${channel}.svg`" alt="" />
       </div>
     </div>
     <div
       class="channels__item channels__item--new"
-      :class="{ 'channels__item--selected': selectedChannel === 'new' }"
+      :class="{ 'channels__item--selected': store.selectedChannel === 'new' }"
       title="Clique para enviar uma nova mensagem!"
-      @click="changeChannel('new')"
+      @click="
+        store.changeChannel('new');
+        openModal();
+      "
     >
       <img
         class=""
@@ -49,7 +54,7 @@ function changeChannel(channel) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .channels {
   position: relative;
   display: flex;

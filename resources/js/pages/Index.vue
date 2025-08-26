@@ -5,10 +5,14 @@ import Container from "../components/Container.vue";
 import Channels from "../components/Channels.vue";
 import Contacts from "../components/Contacts.vue";
 
+import { useGlobalStore } from "../stores/global";
+
 const props = defineProps({
   contacts: Array,
   channels: Array,
 });
+
+const store = useGlobalStore();
 </script>
 
 <template>
@@ -16,7 +20,7 @@ const props = defineProps({
     <Header />
     <Container>
       <Menu>
-        <Channels :channels="channels"/>
+        <Channels :channels="channels" @openModal="store.toggleNewMessageModal(true)"/>
         <Contacts :contacts="contacts" />
       </Menu>
       <div class="content">
