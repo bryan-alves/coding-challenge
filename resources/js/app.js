@@ -1,4 +1,5 @@
 import { createApp, h } from 'vue'
+import { createPinia } from "pinia";
 import { createInertiaApp } from '@inertiajs/vue3'
 import '../css/app.css'
 
@@ -11,8 +12,11 @@ createInertiaApp({
     return page()
   },
   setup({ el, App, props, plugin }) {
+    const pinia = createPinia();
+
     createApp({ render: () => h(App, props) })
       .use(plugin)
+      .use(pinia)
       .mount(el)
   },
 })

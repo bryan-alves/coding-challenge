@@ -22,6 +22,7 @@
         "vue": "^3.5.20"
     },
     "dependencies": {
-        "@inertiajs/vue3": "^2.1.2"
+        "@inertiajs/vue3": "^2.1.2",
+        "pinia": "^3.0.3"
     }
 }
