@@ -6,7 +6,6 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - db_pipelead:/var/lib/mysql
-      - acs-project:/var/lib/mysql
     restart: always
     ports:
       - 3306:3306
@@ -16,8 +15,33 @@ services:
       MYSQL_DATABASE: db_pipelead
     networks:
       - pipelead
+
+  pipelead-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pipelead-app
+    ports:
+      - 8000:8000
+      - 5173:5173
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/vendor
+      - /var/www/html/node_modules
+    networks:
+      - pipelead
+    depends_on:
+      - pipelead-db
+    command: >
+      sh -c "composer install &&
+             npm install &&
+             php artisan key:generate &&
+             php artisan migrate --force &&
+             php artisan serve --host=0.0.0.0 --port=8000 &
+             npm run dev -- --host 0.0.0.0"
+
 volumes:
   db_pipelead: {}
-  acs-project: {}
+
 networks:
   pipelead: null
