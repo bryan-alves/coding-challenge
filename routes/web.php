@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\ChatController;
 
-Route::get('/', function () {
-    return Inertia::render('Index');
-});
+Route::get('/', [ChatController::class, 'index']);
