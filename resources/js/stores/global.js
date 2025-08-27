@@ -5,11 +5,13 @@ export const useGlobalStore = defineStore("global", {
     lastChannel: 'all',
     selectedChannel: 'all',
     newMessageModal: false,
+    selectedContact: 0,
   }),
   actions: {
     changeChannel(selected) {
       this.lastChannel = this.selectedChannel;
       this.selectedChannel = selected;
+      this.changeContact(0);
     },
     changeLastChannel(selected) {
       this.lastChannel = selected;
@@ -20,6 +22,9 @@ export const useGlobalStore = defineStore("global", {
       if (!status) {
         this.selectedChannel = this.lastChannel;
       }
+    },
+    changeContact(contactId) {
+      this.selectedContact = contactId;
     }
   },
 });

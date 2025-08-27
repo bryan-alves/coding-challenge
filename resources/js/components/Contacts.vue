@@ -1,18 +1,30 @@
 <script setup>
+import { useGlobalStore } from "../stores/global";
+
 defineProps({
   contacts: Array,
 });
+
+const store = useGlobalStore();
 </script>
 
 <template>
-  <div class="contacts__container" :key="contact.id" v-for="contact in contacts">
+  <div
+    class="contacts__container"
+    :class="{ 'contacts__container--selected': store.selectedContact === contact.id }"
+    :key="contact.id"
+    v-for="contact in contacts"
+    @click="store.changeContact(contact.id)"
+  >
     <div class="contacts__photo">
       <img :src="contact.photo" alt="" />
     </div>
     <div>
       <h6 style="display: flex; align-items: center">
         {{ contact.name }}
-        <span class="contacts__origin" style="margin-left: 4px; margin-right: 4px">({{ contact.channel }})</span>&nbsp;
+        <span class="contacts__origin" style="margin-left: 4px; margin-right: 4px"
+          >({{ contact.channel }})</span
+        >&nbsp;
         <div v-if="contact.unread_message" class="contacts__unread-message">
           <span>{{ contact.unread_message }}</span>
         </div>
@@ -42,6 +54,10 @@ defineProps({
       background: #19b2b288 !important;
 
       cursor: pointer;
+    }
+
+    &--selected {
+      background: #19b2b288 !important;
     }
   }
 
