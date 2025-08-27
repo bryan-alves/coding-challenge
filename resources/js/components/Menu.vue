@@ -6,9 +6,8 @@
 
 <style lang="css" scoped>
 .menu {
-  background: #19b2b2c2;
   width: 100%;
-  max-height: 100vh;
+  max-height: calc(100vh - 80px);
   min-height: calc(100vh - 80px);
   max-width: 365px;
   padding: 10px;
@@ -16,7 +15,7 @@
 }
 
 .menu::-webkit-scrollbar {
-  width: 10px;
+  width: 7.5px;
 }
 
 .menu::-webkit-scrollbar-track {

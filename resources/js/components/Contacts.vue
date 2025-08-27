@@ -10,9 +10,12 @@ defineProps({
       <img :src="contact.photo" alt="" />
     </div>
     <div>
-      <h6>
+      <h6 style="display: flex; align-items: center">
         {{ contact.name }}
-        <span class="contacts__origin">({{ contact.channel }})</span>
+        <span class="contacts__origin" style="margin-left: 4px; margin-right: 4px">({{ contact.channel }})</span>&nbsp;
+        <div v-if="contact.unread_message" class="contacts__unread-message">
+          <span>{{ contact.unread_message }}</span>
+        </div>
       </h6>
       <div class="contacts__content">
         <p
@@ -21,9 +24,6 @@ defineProps({
         >
           {{ contact.last_message }}
         </p>
-        <div v-if="contact.unread_message" class="contacts__unread-message">
-          <span>{{ contact.unread_message }}</span>
-        </div>
       </div>
     </div>
   </div>
@@ -33,14 +33,14 @@ defineProps({
 .contacts {
   &__container {
     padding: 10px;
-    border-radius: 10px;
-    background: #19b2b2c2;
     display: flex;
     gap: 0.75rem;
     margin-bottom: 0.25rem;
+    border-bottom: 1px solid #d3d3d3;
 
     &:hover {
-      background: #d3d3d3 !important;
+      background: #19b2b288 !important;
+
       cursor: pointer;
     }
   }
@@ -55,6 +55,7 @@ defineProps({
   &__origin {
     font-size: 12px;
     font-weight: 500;
+    color: #747474;
   }
 
   &__content {
@@ -70,14 +71,16 @@ defineProps({
   }
 
   &__unread-message {
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: red;
+    background: #d51717;
     border-radius: 50%;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
+    color: #fff;
+    font-weight: 700;
   }
 }
 </style>
