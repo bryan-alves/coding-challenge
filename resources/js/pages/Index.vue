@@ -4,6 +4,7 @@ import Menu from "../components/Menu.vue";
 import Container from "../components/Container.vue";
 import Channels from "../components/Channels.vue";
 import Contacts from "../components/Contacts.vue";
+import NewMessageModal from "../components/NewMessageModal.vue"
 
 import { useGlobalStore } from "../stores/global";
 
@@ -26,6 +27,7 @@ const store = useGlobalStore();
       <div class="content">
         <img src="https://pipelead.to/wp-content/uploads/2023/10/logo-pipeleads.svg" alt="" />
       </div>
+      <NewMessageModal v-if="store.newMessageModal" :channels="channels" @close="store.toggleNewMessageModal(false)"/>
     </Container>
   </div>
 </template>
