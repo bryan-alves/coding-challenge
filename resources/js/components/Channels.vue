@@ -30,7 +30,7 @@ function openModal() {
         v-for="channel in channels"
         :key="channel"
         :class="{ 'channels__item--selected': store.selectedChannel === channel }"
-        :title="`Veja somente suas mensagens do ${channel}!`"
+        :title="`Veja suas mensagens do ${channel}!`"
         @click="store.changeChannel(channel)"
       >
         <img :src="`http://localhost:8000/images/channels/${channel}.svg`" alt="" />
@@ -70,7 +70,7 @@ function openModal() {
     cursor: pointer;
     z-index: 1;
     position: relative;
-
+    display: flex;
     img {
       position: relative;
     }
