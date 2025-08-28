@@ -20,23 +20,32 @@ const store = useGlobalStore();
       <div class="contacts__photo">
         <img :src="contact.photo" alt="" />
       </div>
-      <div>
-        <h6 style="display: flex; align-items: center">
-          {{ contact.name }}
-          <span class="contacts__origin" style="margin-left: 4px; margin-right: 4px"
-            >({{ contact.channel }})</span
-          >&nbsp;
-          <div v-if="contact.unread_message" class="contacts__unread-message">
-            <span>{{ contact.unread_message }}</span>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+        "
+      >
+        <div>
+          <h6 style="display: flex; align-items: center;color: #2B313B;font-size: 18px">
+            {{ contact.name }}
+            <span class="contacts__origin" style="margin-left: 4px; margin-right: 4px"
+              >({{ contact.channel }})</span
+            >&nbsp;
+          </h6>
+          <div class="contacts__content">
+            <p
+              class="contacts__last-message"
+              :style="contact.unread_message ? 'max-width: 232px;' : ''"
+            >
+              {{ contact.last_message }}
+            </p>
           </div>
-        </h6>
-        <div class="contacts__content">
-          <p
-            class="contacts__last-message"
-            :style="contact.unread_message ? 'max-width: 232px;' : ''"
-          >
-            {{ contact.last_message }}
-          </p>
+        </div>
+        <div v-if="contact.unread_message" class="contacts__unread-message">
+          <span>{{ contact.unread_message }}</span>
         </div>
       </div>
     </div>
@@ -47,27 +56,30 @@ const store = useGlobalStore();
 .contacts {
   overflow-y: scroll;
   max-height: calc(100% - 80px);
+  margin-top: -8px;
+
+  p {
+    color: #556377;
+  }
 
   &__container {
-    padding: 10px;
     display: flex;
     gap: 0.75rem;
-    margin-bottom: 0.25rem;
-    border-bottom: 1px solid #d3d3d3;
+    padding: 10px 32px;
 
     &:hover {
-      background: #19b2b288 !important;
+      background: #f2f2f2;
       cursor: pointer;
     }
 
     &--selected {
-      background: #19b2b288 !important;
+      background: #f2f2f2 !important;
     }
   }
 
   &__photo {
-    width: 48px;
-    min-width: 48px;
+    width: 56px;
+    min-width: 56px;
     border-radius: 50%;
     overflow: hidden;
   }
@@ -95,25 +107,27 @@ const store = useGlobalStore();
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #d51717;
+    background: #14b8a6;
+
     border-radius: 50%;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     color: #fff;
     font-weight: 700;
   }
 
   &::-webkit-scrollbar {
-    width: 7.5px;
+    width: 4px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #19b2b2c2;
+    background: #ebecee;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #4d4d4d;
+    background: #119d8e;
     border-radius: 5px;
+    width: 20px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
