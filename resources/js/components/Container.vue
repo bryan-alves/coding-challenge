@@ -6,9 +6,10 @@
 
 <style lang="css" scoped>
 .container {
-  background: #1494941c;
   width: 100%;
   max-width: 100% !important;
   display: flex;
+  min-height: 100vh;
+  height: 100%;
 }
 </style>
