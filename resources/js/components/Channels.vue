@@ -1,7 +1,8 @@
 <script setup>
 import { useGlobalStore } from "../stores/global";
-
-const emit = defineEmits(["openModal"]);
+import Whatsapp from "./icons/Whatsapp.vue";
+import Telegram from "./icons/Telegram.vue";
+import Messenger from "./icons/Messenger.vue";
 
 defineProps({
   channels: Array,
@@ -9,21 +10,27 @@ defineProps({
 
 const store = useGlobalStore();
 
-function openModal() {
-  emit("openModal");
+function getComponent(channel) {
+  const components = {
+    Whatsapp,
+    Telegram,
+    Messenger,
+  };
+
+  return components[channel];
 }
 </script>
 
 <template>
   <div class="channels">
-    <div style="display: flex; gap: 1rem">
+    <div style="display: flex; gap: 0.5rem">
       <div
         class="channels__item channels__item--start"
         :class="{ 'channels__item--selected': store.selectedChannel === 'all' }"
         title="Veja todas as suas mensagens!"
         @click="store.changeChannel('all')"
       >
-        <img :src="`http://localhost:8000/images/channels/messages.svg`" alt="" />
+        Todas
       </div>
       <div
         class="channels__item"
@@ -33,23 +40,9 @@ function openModal() {
         :title="`Veja suas mensagens do ${channel}!`"
         @click="store.changeChannel(channel)"
       >
-        <img :src="`http://localhost:8000/images/channels/${channel}.svg`" alt="" />
+        <component :is="getComponent(channel)" />
+        <span>{{ channel }}</span>
       </div>
-    </div>
-    <div
-      class="channels__item channels__item--new"
-      :class="{ 'channels__item--selected': store.selectedChannel === 'new' }"
-      title="Clique para enviar uma nova mensagem!"
-      @click="
-        store.changeChannel('new');
-        openModal();
-      "
-    >
-      <img
-        class=""
-        :src="`http://localhost:8000/images/channels/message-plus.svg`"
-        alt=""
-      />
     </div>
   </div>
 </template>
@@ -61,31 +54,24 @@ function openModal() {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
-  padding: 10px 17px;
-  background: #19b2b2c2;
+  padding: 0px 30px 10px;
   border-radius: 10px;
+  overflow-x: scroll;
+  overflow-y: hidden;
 
   &__item {
-    width: 35px;
+    padding: 8px 12px;
     cursor: pointer;
-    z-index: 1;
-    position: relative;
     display: flex;
-    img {
-      position: relative;
-    }
+    border: 1px solid #ebecee;
+    border-radius: 100px;
+    min-width: fit-content;
+    gap: 0.5rem;
 
-    &--selected::after {
-      content: "";
-      position: absolute;
-      height: 50px;
-      width: 50px;
-      // background-color: #e4e4e4;
-      background-color: #4d4d4d;
-      border-radius: 50%;
-      top: -7px;
-      left: -7px;
-      z-index: -1;
+    &--selected {
+      background: #ACDBD3;
+      border: 1px solid #86CEC2;
+      color: #0C6F64;
     }
 
     &--start.channels__item--selected::after {
@@ -102,5 +88,25 @@ function openModal() {
       top: -5px;
     }
   }
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ebecee;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #119d8e;
+    border-radius: 5px;
+    width: 20px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #363636;
+  }
 }
+
+// background: var(--background-tertiary, #ebecee);
 </style>
