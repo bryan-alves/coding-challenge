@@ -18,6 +18,10 @@
 </template>
 
 <style scoped>
+div {
+  min-width: fit-content;
+}
+
 svg {
   cursor: pointer;
 }

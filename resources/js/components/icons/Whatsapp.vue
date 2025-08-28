@@ -21,4 +21,8 @@
 svg {
   cursor: pointer;
 }
+
+div {
+  min-width: fit-content;
+}
 </style>
