@@ -1,6 +1,6 @@
 <script setup>
 import Header from "../components/Header.vue";
-import Menu from "../components/Menu.vue";
+import Sidebar from "../components/layouts/Sidebar.vue";
 import Container from "../components/Container.vue";
 import Channels from "../components/Channels.vue";
 import Contacts from "../components/Contacts.vue";
@@ -21,10 +21,10 @@ const store = useGlobalStore();
   <div>
     <Header />
     <Container>
-      <Menu>
+      <Sidebar>
         <Channels :channels="channels" @openModal="store.toggleNewMessageModal(true)"/>
         <Contacts :contacts="contacts" />
-      </Menu>
+      </Sidebar>
       <Content />
       <NewMessageModal v-if="store.newMessageModal" :channels="channels" @close="store.toggleNewMessageModal(false)"/>
     </Container>

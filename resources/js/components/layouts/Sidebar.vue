@@ -1,33 +1,32 @@
 <template>
-  <div class="menu">
+  <div class="sidebar">
     <slot />
   </div>
 </template>
 
 <style lang="css" scoped>
-.menu {
+.sidebar {
   width: 100%;
   max-height: calc(100vh - 80px);
   min-height: calc(100vh - 80px);
-  max-width: 365px;
-  padding: 10px;
+  max-width: 450px;
   overflow-y: auto;
 }
 
-.menu::-webkit-scrollbar {
+.sidebar::-webkit-scrollbar {
   width: 7.5px;
 }
 
-.menu::-webkit-scrollbar-track {
+.sidebar::-webkit-scrollbar-track {
   background: #19b2b2c2;
 }
 
-.menu::-webkit-scrollbar-thumb {
+.sidebar::-webkit-scrollbar-thumb {
   background: #4d4d4d;
   border-radius: 5px;
 }
 
-.menu::-webkit-scrollbar-thumb:hover {
+.sidebar::-webkit-scrollbar-thumb:hover {
   background: #363636;
 }
 </style>
