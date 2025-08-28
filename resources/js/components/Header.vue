@@ -1,16 +1,31 @@
+<script setup>
+import { useGlobalStore } from "../stores/global";
+import NewMessage from "./icons/NewMessage.vue";
+
+const store = useGlobalStore();
+</script>
+
 <template>
   <div class="header">
-    <img src="https://pipelead.to/wp-content/uploads/2023/10/logo-pipeleads.svg" alt="" />
+    <div class="header__logo">
+      <img
+        src="https://pipelead.to/wp-content/uploads/2023/10/logo-pipeleads.svg"
+        alt=""
+      />
+    </div>
+    <div class="header__new-message">
+      <NewMessage title="Nova mensagem!" @click="store.toggleNewMessageModal(true)"/>
+    </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .header {
   display: flex;
   align-items: center;
-  height: 80px;
+  justify-content: space-between;
   width: 100%;
-  background: #f5f5f5;
-  padding: 0 30px;
+  padding: 32px;
+  background: #FCFCFD;
 }
 </style>

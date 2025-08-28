@@ -19,9 +19,9 @@ const store = useGlobalStore();
 
 <template>
   <div>
-    <Header />
     <Container>
       <Sidebar>
+        <Header />
         <Channels :channels="channels" @openModal="store.toggleNewMessageModal(true)"/>
         <Contacts :contacts="contacts" />
       </Sidebar>
