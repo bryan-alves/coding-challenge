@@ -5,6 +5,7 @@ import Container from "../components/Container.vue";
 import Channels from "../components/Channels.vue";
 import Contacts from "../components/Contacts.vue";
 import NewMessageModal from "../components/NewMessageModal.vue"
+import Content from "../components/layouts/Content.vue";
 
 import { useGlobalStore } from "../stores/global";
 
@@ -24,19 +25,8 @@ const store = useGlobalStore();
         <Channels :channels="channels" @openModal="store.toggleNewMessageModal(true)"/>
         <Contacts :contacts="contacts" />
       </Menu>
-      <div class="content">
-        <img src="https://pipelead.to/wp-content/uploads/2023/10/logo-pipeleads.svg" alt="" />
-      </div>
+      <Content />
       <NewMessageModal v-if="store.newMessageModal" :channels="channels" @close="store.toggleNewMessageModal(false)"/>
     </Container>
   </div>
 </template>
-
-<style lang="css" scoped>
-.content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-</style>
