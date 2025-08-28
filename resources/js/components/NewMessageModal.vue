@@ -19,8 +19,6 @@ function changeChannel(channel) {
   if(loading.value) return;
 
   selectedChannel.value = channel;
-
-  store.changeLastChannel(channel);
 }
 
 function sendMessage() {
