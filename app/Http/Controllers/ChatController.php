@@ -9,11 +9,11 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $channels = ['whatsapp', 'messenger', 'telegram'];
+        $channels = ['Whatsapp', 'Messenger', 'Telegram'];
 
         ##### MOCK MOCK MOCK MOCK #####
         $photo = '/images/contacts/default.png';
-        $people = ['Bryan', 'Kaue', 'Lucas', 'Gustavo', 'Leticia', 'Valeria', 'Juliana', 'Bruno', 'Jefferson', 'Jonas'];
+        $people = ['Bryan', 'Kaue', 'Lucas', 'Gustavo', 'Leticia', 'Valeria', 'Juliana', 'Bruno', 'Jefferson', 'Jonas','Bryan', 'Kaue', 'Lucas', 'Gustavo', 'Leticia', 'Valeria', 'Juliana', 'Bruno', 'Jefferson', 'Jonas'];
 
         $contacts = [];
 

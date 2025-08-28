@@ -23,7 +23,7 @@ function getComponent(channel) {
 
 <template>
   <div class="channels">
-    <div style="display: flex; gap: 0.5rem">
+    <div class="channels__container">
       <div
         class="channels__item channels__item--start"
         :class="{ 'channels__item--selected': store.selectedChannel === 'all' }"
@@ -59,6 +59,12 @@ function getComponent(channel) {
   overflow-x: scroll;
   overflow-y: hidden;
 
+  &__container {
+    display: flex;
+    gap: 0.5rem;
+    padding-right: 55px;
+  }
+
   &__item {
     padding: 8px 12px;
     cursor: pointer;
@@ -69,9 +75,9 @@ function getComponent(channel) {
     gap: 0.5rem;
 
     &--selected {
-      background: #ACDBD3;
-      border: 1px solid #86CEC2;
-      color: #0C6F64;
+      background: #acdbd3;
+      border: 1px solid #86cec2;
+      color: #0c6f64;
     }
 
     &--start.channels__item--selected::after {
