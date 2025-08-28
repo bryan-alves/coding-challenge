@@ -1,6 +1,6 @@
 <script setup>
 import { useGlobalStore } from "../stores/global";
-import NewMessage from "./icons/NewMessage.vue";
+import { Icon } from '@iconify/vue'
 
 const store = useGlobalStore();
 </script>
@@ -14,7 +14,7 @@ const store = useGlobalStore();
       />
     </div>
     <div class="header__new-message">
-      <NewMessage title="Nova mensagem!" @click="store.toggleNewMessageModal(true)"/>
+      <Icon :icon="'lucide:message-circle-plus'" width="22" height="22" color="2B313B" @click="store.toggleNewMessageModal(true)"/>
     </div>
   </div>
 </template>
@@ -27,5 +27,9 @@ const store = useGlobalStore();
   width: 100%;
   padding: 32px;
   background: #FCFCFD;
+
+  &__new-message {
+    cursor: pointer;
+  }
 }
 </style>
