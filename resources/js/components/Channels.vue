@@ -1,8 +1,6 @@
 <script setup>
 import { useGlobalStore } from "../stores/global";
-import Whatsapp from "./icons/Whatsapp.vue";
-import Telegram from "./icons/Telegram.vue";
-import Messenger from "./icons/Messenger.vue";
+import { Icon } from '@iconify/vue'
 
 defineProps({
   channels: Array,
@@ -10,11 +8,11 @@ defineProps({
 
 const store = useGlobalStore();
 
-function getComponent(channel) {
+function getIcon(channel) {
   const components = {
-    Whatsapp,
-    Telegram,
-    Messenger,
+    Whatsapp: 'mdi:whatsapp',
+    Telegram: 'basil:telegram-outline',
+    Messenger: 'mingcute:messenger-line',
   };
 
   return components[channel];
@@ -25,12 +23,12 @@ function getComponent(channel) {
   <div class="channels">
     <div class="channels__container">
       <div
-        class="channels__item channels__item--start"
+        class="channels__item"
         :class="{ 'channels__item--selected': store.selectedChannel === 'all' }"
         title="Veja todas as suas mensagens!"
         @click="store.changeChannel('all')"
       >
-        Todas
+        <span style="font-size: 14px">Todas</span>
       </div>
       <div
         class="channels__item"
@@ -40,7 +38,7 @@ function getComponent(channel) {
         :title="`Veja suas mensagens do ${channel}!`"
         @click="store.changeChannel(channel)"
       >
-        <component :is="getComponent(channel)" />
+        <Icon :icon="getIcon(channel)" width="20" height="20" color="556377"/>
         <span>{{ channel }}</span>
       </div>
     </div>
@@ -56,7 +54,7 @@ function getComponent(channel) {
   margin-bottom: 0.5rem;
   padding: 0px 30px 10px;
   border-radius: 10px;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
 
   &__container {
@@ -73,25 +71,18 @@ function getComponent(channel) {
     border-radius: 100px;
     min-width: fit-content;
     gap: 0.5rem;
+    align-items: center;
+
+    span {
+      font-size: 14px;
+      color: #556377;
+
+    }
 
     &--selected {
       background: #acdbd3;
       border: 1px solid #86cec2;
       color: #0c6f64;
-    }
-
-    &--start.channels__item--selected::after {
-      left: -7px;
-      top: -7px;
-    }
-
-    &--new {
-      width: 40px;
-    }
-
-    &--new.channels__item--selected::after {
-      left: -5px;
-      top: -5px;
     }
   }
 
