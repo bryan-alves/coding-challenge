@@ -1,5 +1,5 @@
 <script setup>
-import { useGlobalStore } from "../stores/global";
+import { useGlobalStore } from "../../stores/global";
 import { Icon } from '@iconify/vue'
 
 const store = useGlobalStore();

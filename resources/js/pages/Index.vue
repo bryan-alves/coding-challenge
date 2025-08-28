@@ -1,7 +1,7 @@
 <script setup>
-import Header from "../components/Header.vue";
+import Header from "../components/layouts/Header.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
-import Container from "../components/Container.vue";
+import Container from "../components/layouts/Container.vue";
 import Channels from "../components/Channels.vue";
 import Contacts from "../components/Contacts.vue";
 import NewMessageModal from "../components/NewMessageModal.vue"
