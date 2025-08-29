@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { useGlobalStore } from "../stores/global";
+import { useGlobalStore } from "../../stores/global";
 
 const emit = defineEmits(["close"]);
 
