@@ -15,6 +15,15 @@ export const useGlobalStore = defineStore("global", {
     },
     changeContact(contactId) {
       this.selectedContact = contactId;
+    },
+    getChannelIcon(channel) {
+      const components = {
+        whatsapp: 'mdi:whatsapp',
+        telegram: 'basil:telegram-outline',
+        messenger: 'mingcute:messenger-line',
+      };
+
+      return components[channel];
     }
   },
 });
