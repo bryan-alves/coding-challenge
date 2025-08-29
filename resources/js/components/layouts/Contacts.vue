@@ -1,5 +1,6 @@
 <script setup>
-import { useGlobalStore } from "../stores/global";
+import { useGlobalStore } from "@/stores/global";
+import ChannelsBadge from "@/components/ui/ChannelsBadge.vue";
 
 defineProps({
   contacts: Array,
@@ -29,11 +30,9 @@ const store = useGlobalStore();
         "
       >
         <div>
-          <h6 style="display: flex; align-items: center;color: #2B313B;font-size: 18px">
-            {{ contact.name }}
-            <span class="contacts__origin" style="margin-left: 4px; margin-right: 4px"
-              >({{ contact.channel }})</span
-            >&nbsp;
+          <h6 style="display: flex; align-items: center; color: #2b313b; font-size: 18px">
+            {{ contact.name }}&nbsp;&nbsp;
+            <ChannelsBadge :channel="contact.channel" small onlyIcon />
           </h6>
           <div class="contacts__content">
             <p

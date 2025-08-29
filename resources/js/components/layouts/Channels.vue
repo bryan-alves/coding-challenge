@@ -1,22 +1,12 @@
 <script setup>
-import { useGlobalStore } from "../stores/global";
-import { Icon } from '@iconify/vue'
+import { useGlobalStore } from "@/stores/global";
+import ChannelsBadge from "@/components/ui/ChannelsBadge.vue";
 
 defineProps({
   channels: Array,
 });
 
 const store = useGlobalStore();
-
-function getIcon(channel) {
-  const components = {
-    Whatsapp: 'mdi:whatsapp',
-    Telegram: 'basil:telegram-outline',
-    Messenger: 'mingcute:messenger-line',
-  };
-
-  return components[channel];
-}
 </script>
 
 <template>
@@ -30,17 +20,14 @@ function getIcon(channel) {
       >
         <span style="font-size: 14px">Todas</span>
       </div>
-      <div
-        class="channels__item"
+      <ChannelsBadge
+        :channel="channel"
         v-for="channel in channels"
         :key="channel"
-        :class="{ 'channels__item--selected': store.selectedChannel === channel }"
+        :selected="store.selectedChannel === channel"
         :title="`Veja suas mensagens do ${channel}!`"
         @click="store.changeChannel(channel)"
-      >
-        <Icon :icon="getIcon(channel)" width="20" height="20" color="556377"/>
-        <span>{{ channel }}</span>
-      </div>
+      />
     </div>
   </div>
 </template>
@@ -76,7 +63,6 @@ function getIcon(channel) {
     span {
       font-size: 14px;
       color: #556377;
-
     }
 
     &--selected {

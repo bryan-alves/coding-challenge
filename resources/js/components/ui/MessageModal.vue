@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { useGlobalStore } from "../../stores/global";
+import { useGlobalStore } from "@/stores/global";
+import ChannelsBadge from "@/components/ui/ChannelsBadge.vue";
 
 const emit = defineEmits(["close"]);
 
@@ -16,7 +17,7 @@ const loading = ref(false);
 const selectedChannel = ref("all");
 
 function changeChannel(channel) {
-  if(loading.value) return;
+  if (loading.value) return;
 
   selectedChannel.value = channel;
 }
@@ -25,19 +26,17 @@ function sendMessage() {
   try {
     loading.value = true;
     setTimeout(() => {
-
-      loading.value = false
-      emit('close')
-    }, 3000)
+      loading.value = false;
+      emit("close");
+    }, 3000);
   } catch (error) {
-
   } finally {
   }
 }
 
 onMounted(() => {
-  if (props?.channels.includes(store.lastChannel)) {
-    selectedChannel.value = store.lastChannel;
+  if (props?.channels.includes(store.selectedChannel)) {
+    selectedChannel.value = store.selectedChannel;
   }
 });
 </script>
@@ -46,28 +45,29 @@ onMounted(() => {
   <transition name="fade">
     <div
       v-if="isOpen"
-      class="new-message-modal fixed inset-0 flex items-center justify-center z-50"
+      class="message-modal fixed inset-0 flex items-center justify-center z-50"
     >
       <div
-        class="new-message-modal__container bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6 relative"
+        class="message-modal__container bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6 relative"
       >
-        <h2 class="text-xl font-bold mb-4">Nova mensagem</h2>
-        <p style="margin-bottom: 1rem">Selecione o provedor para ser enviado.</p>
+        <h2 class="text-xl font-bold mb-4" style="color: #119d8e">Nova mensagem</h2>
+        <p style="color: #556377; margin-bottom: 0.5rem">
+          Selecione o provedor para ser enviado.
+        </p>
 
         <div v-if="loading" class="spinner"></div>
-        <div class="new-message-modal__channels" :class="{'new-message-modal__channels--disabled' : loading}">
-          <div
-            class="channels__item"
+        <div class="message-modal__channels">
+          <ChannelsBadge
+            :channel="channel"
             v-for="channel in channels"
             :key="channel"
-            :class="{ 'channels__item--selected': selectedChannel === channel }"
-            :title="`Enviar mensagem pelo ${channel}!`"
+            :selected="selectedChannel === channel"
+            :title="`Veja suas mensagens do ${channel}!`"
+            :disabled="loading"
             @click="changeChannel(channel)"
-          >
-            <img :src="`http://localhost:8000/images/channels/${channel}.svg`" alt="" />
-          </div>
+          />
         </div>
-        <select :disabled="loading" name="" id="" class="new-message-modal__contacts">
+        <select :disabled="loading" name="" id="" class="message-modal__contacts">
           <option value="" selected disabled>Selecione um contato...</option>
           <option value="">Contato 1</option>
           <option value="">Contato 2</option>
@@ -77,7 +77,7 @@ onMounted(() => {
         <textarea
           :disabled="loading"
           name=""
-          class="new-message-modal__message"
+          class="message-modal__message"
           id=""
           rows="4"
           placeholder="Escreva aqui sua mensagem..."
@@ -87,13 +87,18 @@ onMounted(() => {
         <div style="gap: 1rem" class="flex justify-end space-x-2">
           <button
             @click="emit('close')"
-            style="border: 2px solid #4d4d4d; background-color: #fff; color: #000"
-            class="new-message-modal__button px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+            style="border: 1px solid #556377; background-color: #fff; color: #556377"
+            class="message-modal__button px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
             :disabled="loading"
           >
             Cancelar
           </button>
-          <button @click="sendMessage()" :disabled="loading" class="new-message-modal__button" style="background-color: #4d4d4d">
+          <button
+            @click="sendMessage()"
+            :disabled="loading"
+            class="message-modal__button"
+            style="background-color: #119d8e"
+          >
             Confirmar
           </button>
         </div>
@@ -103,18 +108,19 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
-.new-message-modal {
+.message-modal {
   background: #00000082;
 
   &__button {
     &:disabled {
-      background-color: #d3d3d3!important;
-      border: 0px!important;
-      color: #FFF!important;
+      background-color: #d3d3d3 !important;
+      border: 0px !important;
+      color: #fff !important;
     }
   }
 
   &__contacts {
+    color: #556377;
     margin-top: 1rem;
     display: block;
     height: 35px;
@@ -125,32 +131,42 @@ onMounted(() => {
     padding: 8px;
     font-size: 14px;
     border: 1px solid rgb(211, 211, 211);
+    outline: 0;
 
     &:disabled {
       background-color: #d3d3d3;
     }
+
+    &:focus-visible {
+      border-color: #19b2b2c2;
+    }
   }
 
   &__message {
+    color: #556377;
     border-radius: 6px;
+    font-size: 15px;
     width: 450px;
     margin-bottom: 1.5rem;
     background: #fff;
     border: 1px solid rgb(211, 211, 211);
-    color: #000;
     padding: 8px;
+    outline: none;
 
     &:disabled {
       background-color: #d3d3d3;
+    }
+
+    &:focus-visible {
+      border-color: #19b2b2c2;
     }
   }
 
   &__channels {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
     padding: 10px 17px;
-    background: rgba(25, 178, 178, 0.7607843137);
+    padding-bottom: 0px;
     border-radius: 10px;
 
     &--disabled {
@@ -159,8 +175,7 @@ onMounted(() => {
   }
 
   &__container {
-    background: #f8f8f8;
-    border: 10px solid #19b2b2c2;
+    background: #fcfcfc;
     padding: 20px;
     width: 100%;
     max-width: 600px;
