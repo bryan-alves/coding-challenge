@@ -17,6 +17,7 @@ export const useGlobalStore = defineStore("global", {
     },
     changeContact(contactId) {
       this.selectedContact = contactId;
+      Inertia.post('/read-message', { contact_id: contactId });
     },
     getChannelIcon(channel) {
       const components = {

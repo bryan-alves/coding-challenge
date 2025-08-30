@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\Contact;
+use App\Models\Message;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -16,11 +17,11 @@ class ChatController extends Controller
         $contactsQuery = Contact::with(['channel', 'lastMessage'])
             ->withCount('unreadMessages');
 
-        // filtrar pelo channel se não for "all"
         $selectedChannel = $request->query('channel', 'all');
+
         if ($selectedChannel !== 'all') {
-            // pega o ID do canal pelo nome
             $channelId = Channel::where('name', $selectedChannel)->value('id');
+
             if ($channelId) {
                 $contactsQuery->where('channel_id', $channelId);
             }
@@ -33,5 +34,12 @@ class ChatController extends Controller
             'channels' => $channels,
             'selectedChannel' => $selectedChannel,
         ]);
+    }
+
+    public function readMessage(Request $request)
+    {
+        Message::where('contact_id', $request->contact_id)
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
     }
 }
