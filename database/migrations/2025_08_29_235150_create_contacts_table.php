@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')
+            ->constrained('users');
             $table->foreignId('channel_id')
             ->constrained('channels');
             $table->string('name');

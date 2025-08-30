@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')
+            ->constrained('users');
             $table->foreignId('contact_id')
             ->constrained('contacts');
             $table->longText('message');
+            $table->string('origin');
             $table->boolean('is_read')->default(false);
             $table->timestamps();
         });

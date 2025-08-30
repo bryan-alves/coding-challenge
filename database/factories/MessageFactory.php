@@ -18,9 +18,11 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id'    => 1,
             'contact_id' => Contact::inRandomOrder()->first()->id,
             'message'    => $this->faker->paragraph(),
             'is_read'    => $this->faker->boolean(30),
+            'origin'     => $this->faker->randomElement(['sent', 'received']),
         ];
     }
 }
