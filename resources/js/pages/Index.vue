@@ -1,4 +1,5 @@
 <script setup>
+import { Head } from '@inertiajs/inertia-vue3';
 import Header from "@/components/layouts/Header.vue";
 import Sidebar from "@/components/layouts/Sidebar.vue";
 import Container from "@/components/layouts/Container.vue";
@@ -19,6 +20,10 @@ const store = useGlobalStore();
 
 <template>
   <div>
+    <Head>
+      <title>{{ 'Pipechat' }}</title>
+      <link rel="icon" href="/images/logo.png" />
+    </Head>
     <Container>
       <Sidebar>
         <Header />
