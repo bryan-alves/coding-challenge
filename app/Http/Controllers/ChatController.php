@@ -13,7 +13,9 @@ class ChatController extends Controller
     {
         $channels = Channel::pluck('name')->toArray();
 
-        $contacts = Contact::with('channel')->get();
+        $contacts = Contact::with(['channel', 'lastMessage'])
+            ->withCount('unreadMessages')
+            ->get();
 
         return Inertia::render('Index', [
             'contacts' => $contacts,

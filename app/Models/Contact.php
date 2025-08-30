@@ -13,4 +13,16 @@ class Contact extends Model
     {
         return $this->belongsTo(Channel::class);
     }
+
+    public function lastMessage()
+    {
+        return $this->hasOne(Message::class)
+                    ->latest('id');
+    }
+
+    public function unreadMessages()
+    {
+        return $this->hasMany(Message::class)
+                    ->where('is_read', false);
+    }
 }

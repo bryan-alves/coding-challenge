@@ -2,7 +2,7 @@
 import { useGlobalStore } from "@/stores/global";
 import ChannelsBadge from "@/components/ui/ChannelsBadge.vue";
 
-defineProps({
+const props = defineProps({
   contacts: Array,
 });
 
@@ -35,17 +35,13 @@ const store = useGlobalStore();
             <ChannelsBadge :channel="contact.channel.name" small onlyIcon />
           </h6>
           <div class="contacts__content">
-            <p
-              class="contacts__last-message"
-              :style="contact.unread_message ? 'max-width: 232px;' : ''"
-            >
-              Olá, tudo bem? Meu nome é {{ contact.name }} e estou aqui em contato
-              referente a compra de software corporativos da pipelead.
+            <p class="contacts__last-message">
+              {{ contact.last_message?.message }}
             </p>
           </div>
         </div>
-        <div v-if="true || contact.unread_message" class="contacts__unread-message">
-          <span>{{ 50 || contact.unread_message }}</span>
+        <div v-if="contact.unread_messages_count" class="contacts__unread-message">
+          <span>{{ contact.unread_messages_count }}</span>
         </div>
       </div>
     </div>
