@@ -1,6 +1,6 @@
 import { createApp, h } from 'vue'
 import { createPinia } from "pinia";
-import { createInertiaApp } from '@inertiajs/vue3'
+import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import '../css/app.css'
 
 const pages = import.meta.glob('./pages/**/*.vue') // importa todas as páginas automaticamente

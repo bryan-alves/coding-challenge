@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { Inertia } from '@inertiajs/inertia';
 
 export const useGlobalStore = defineStore("global", {
   state: () => ({
@@ -9,6 +10,7 @@ export const useGlobalStore = defineStore("global", {
   actions: {
     changeChannel(selected) {
       this.selectedChannel = selected;
+      Inertia.get('/', { channel: selected }, { preserveState: true });
     },
     toggleNewMessageModal(status) {
       this.newMessageModal = status;

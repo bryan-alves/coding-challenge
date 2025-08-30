@@ -9,17 +9,29 @@ use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $channels = Channel::pluck('name')->toArray();
 
-        $contacts = Contact::with(['channel', 'lastMessage'])
-            ->withCount('unreadMessages')
-            ->get();
+        $contactsQuery = Contact::with(['channel', 'lastMessage'])
+            ->withCount('unreadMessages');
+
+        // filtrar pelo channel se não for "all"
+        $selectedChannel = $request->query('channel', 'all');
+        if ($selectedChannel !== 'all') {
+            // pega o ID do canal pelo nome
+            $channelId = Channel::where('name', $selectedChannel)->value('id');
+            if ($channelId) {
+                $contactsQuery->where('channel_id', $channelId);
+            }
+        }
+
+        $contacts = $contactsQuery->get();
 
         return Inertia::render('Index', [
             'contacts' => $contacts,
-            'channels' => $channels
+            'channels' => $channels,
+            'selectedChannel' => $selectedChannel,
         ]);
     }
 }
