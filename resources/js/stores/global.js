@@ -7,6 +7,10 @@ export const useGlobalStore = defineStore("global", {
     newMessageModal: false,
     selectedContact: 0,
     theme: localStorage.getItem("theme") || "light",
+    messages: [],
+    pollingInterval: null,
+    messagesPage: 1,
+    hasMoreMessages: true,
   }),
   actions: {
     changeChannel(selected) {
@@ -19,6 +23,51 @@ export const useGlobalStore = defineStore("global", {
     changeContact(contactId) {
       this.selectedContact = contactId;
       Inertia.post('/read-message', { contact_id: contactId });
+      this.fetchMessages(true);
+      // this.startPolling();
+    },
+    fetchMessages(reset = false) {
+      return new Promise((resolve) => {
+        if (!this.selectedContact) return resolve();
+
+        if (reset) {
+          this.messagesPage = 1;
+          this.hasMoreMessages = true;
+          this.messages = [];
+        }
+
+        if (!this.hasMoreMessages) return resolve();
+
+        Inertia.get(
+          '/',
+          { contact_id: this.selectedContact, page: this.messagesPage },
+          {
+            preserveState: true,
+            replace: true,
+            onSuccess: (page) => {
+              const newMessages = page.props.messages.data.reverse();
+              if (newMessages.length === 0) this.hasMoreMessages = false;
+
+              this.messages = [...newMessages, ...this.messages];
+              this.messagesPage++;
+              resolve();
+            }
+          }
+        );
+      });
+    },
+    startPolling() {
+      this.stopPolling();
+
+      this.pollingInterval = setInterval(() => {
+        this.fetchMessages();
+      }, 5000);
+    },
+    stopPolling() {
+      if (this.pollingInterval) {
+        clearInterval(this.pollingInterval);
+        this.pollingInterval = null;
+      }
     },
     getChannelIcon(channel) {
       const components = {
@@ -30,12 +79,12 @@ export const useGlobalStore = defineStore("global", {
       return components[channel];
     },
     setTheme(theme) {
-      this.theme = theme
-      localStorage.setItem("theme", theme)
-      document.documentElement.setAttribute("data-theme", theme)
+      this.theme = theme;
+      localStorage.setItem("theme", theme);
+      document.documentElement.setAttribute("data-theme", theme);
     },
     toggleTheme() {
-      this.setTheme(this.theme === "light" ? "dark" : "light")
+      this.setTheme(this.theme === "light" ? "dark" : "light");
     }
   },
 });

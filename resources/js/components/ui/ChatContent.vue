@@ -1,25 +1,40 @@
+<script setup>
+import { useGlobalStore } from "@/stores/global";
+
+const store = useGlobalStore();
+</script>
+
 <template>
   <div class="chat-content">
     <div class="chat-content__divider">Hoje</div>
 
-    <div class="chat-content__row">
-      <div class="chat-content__msg chat-content__received">
-        <div class="chat-content__text">Olá! 👋 Precisando de ajuda com seu projeto?</div>
-        <div class="chat-content__time">09:31</div>
-      </div>
-    </div>
-
-    <div class="chat-content__row chat-content__sent">
-      <div class="chat-content__msg chat-content__sent" style="background: var(--third-color)">
-        <div class="chat-content__text">
-          Oi! Quero replicar o estilo do WhatsApp Web só com HTML e CSS.
+    <div :key="message.message" v-for="message in store.messages">
+      <div v-if="message.origin === 'received'" class="chat-content__row">
+        <div class="chat-content__msg chat-content__received">
+          <div class="chat-content__text">
+            {{ message.message }}
+          </div>
+          <div class="chat-content__time">09:31</div>
         </div>
-        <div class="chat-content__time">
-          09:32
-          <span class="chat-content__checks">
-            <span class="chat-content__check chat-content__read"></span
-            ><span class="chat-content__check chat-content__read"></span>
-          </span>
+      </div>
+      <div
+        v-else-if="message.origin === 'sent'"
+        class="chat-content__row chat-content__sent"
+      >
+        <div
+          class="chat-content__msg chat-content__sent"
+          style="background: var(--third-color)"
+        >
+          <div class="chat-content__text">
+            {{ message.message }}
+          </div>
+          <div class="chat-content__time">
+            09:32
+            <span class="chat-content__checks">
+              <span class="chat-content__check chat-content__read"></span
+              ><span class="chat-content__check chat-content__read"></span>
+            </span>
+          </div>
         </div>
       </div>
     </div>

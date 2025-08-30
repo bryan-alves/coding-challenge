@@ -29,10 +29,19 @@ class ChatController extends Controller
 
         $contacts = $contactsQuery->get();
 
+        $messages = [];
+
+        if ($request->contact_id) {
+            $messages = Message::where('contact_id', $request->contact_id)
+            ->orderBy('created_at', 'asc')
+            ->paginate(20);
+        }
+
         return Inertia::render('Index', [
             'contacts' => $contacts,
             'channels' => $channels,
             'selectedChannel' => $selectedChannel,
+            'messages' => $messages
         ]);
     }
 

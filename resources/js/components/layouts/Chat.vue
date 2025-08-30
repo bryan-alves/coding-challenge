@@ -1,6 +1,45 @@
 <script setup>
+import { ref, onMounted, nextTick, watch } from "vue";
 import { Icon } from "@iconify/vue";
 import ChatContent from "@/components/ui/ChatContent.vue";
+import { useGlobalStore } from "@/stores/global";
+
+const store = useGlobalStore();
+const chatContentRef = ref(null);
+
+let loadingOldMessages = false;
+
+const onScroll = async () => {
+  if (chatContentRef.value.scrollTop === 0 && store.hasMoreMessages) {
+    loadingOldMessages = true;
+    const previousHeight = chatContentRef.value.scrollHeight;
+
+    await store.fetchMessages();
+
+    nextTick(() => {
+      chatContentRef.value.scrollTop = chatContentRef.value.scrollHeight - previousHeight;
+      loadingOldMessages = false;
+    });
+  }
+};
+
+watch(
+  () => store.messages,
+  () => {
+    nextTick(() => {
+      if (!loadingOldMessages) {
+        chatContentRef.value.scrollTop = chatContentRef.value.scrollHeight;
+      }
+    });
+  },
+  { deep: true }
+);
+
+onMounted(() => {
+  nextTick(() => {
+    chatContentRef.value.scrollTop = chatContentRef.value.scrollHeight;
+  });
+});
 </script>
 
 <template>
@@ -11,9 +50,11 @@ import ChatContent from "@/components/ui/ChatContent.vue";
       </div>
       <h6 class="chat__contact">Nome</h6>
     </div>
-    <div class="chat__content">
-      <ChatContent />
+
+    <div class="chat__content" ref="chatContentRef" @scroll="onScroll">
+      <ChatContent :messages="store.messages" />
     </div>
+
     <div class="chat__bottom">
       <div class="chat__send">
         <input type="text" placeholder="Digite uma mensagem" />
@@ -28,8 +69,24 @@ import ChatContent from "@/components/ui/ChatContent.vue";
 <style lang="scss" scoped>
 .chat {
   &__content {
-    height: calc(100% - 200px);
+    max-height: calc(100vh - 180px);
+    height: 100%;
+    overflow-y: scroll;
     padding: 32px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--primary-gray-color);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 5px;
+      width: 20px;
+    }
   }
 
   &__header {
