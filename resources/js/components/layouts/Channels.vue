@@ -12,14 +12,12 @@ const store = useGlobalStore();
 <template>
   <div class="channels">
     <div class="channels__container">
-      <div
-        class="channels__item"
-        :class="{ 'channels__item--selected': store.selectedChannel === 'all' }"
+      <ChannelsBadge
+        channel="all"
+        :selected="store.selectedChannel === 'all'"
         title="Veja todas as suas mensagens!"
         @click="store.changeChannel('all')"
-      >
-        <span style="font-size: 14px">Todas</span>
-      </div>
+      />
       <ChannelsBadge
         :channel="channel"
         v-for="channel in channels"

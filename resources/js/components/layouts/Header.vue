@@ -9,12 +9,12 @@ const store = useGlobalStore();
   <div class="header">
     <div class="header__logo">
       <img
-        src="https://pipelead.to/wp-content/uploads/2023/10/logo-pipeleads.svg"
+        :src="`/images/logo-${store.theme}.svg`"
         alt=""
       />
     </div>
     <div class="header__new-message">
-      <Icon :icon="'lucide:message-circle-plus'" width="22" height="22" color="2B313B" @click="store.toggleNewMessageModal(true)"/>
+      <Icon :icon="'lucide:message-circle-plus'" width="22" height="22" :color="store.theme === 'light' ? '2B313B' : 'fff'" @click="store.toggleNewMessageModal(true)"/>
     </div>
   </div>
 </template>
@@ -26,7 +26,15 @@ const store = useGlobalStore();
   justify-content: space-between;
   width: 100%;
   padding: 32px;
-  background: var(--primary-background-color);
+
+  &__logo {
+    width: 230px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 
   &__new-message {
     cursor: pointer;

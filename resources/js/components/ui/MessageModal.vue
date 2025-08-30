@@ -124,7 +124,6 @@ onMounted(() => {
     margin-top: 1rem;
     display: block;
     height: 35px;
-    background: var(--white);
     border-radius: 4px;
     width: 450px;
     margin-bottom: 1rem;
@@ -148,7 +147,6 @@ onMounted(() => {
     font-size: 15px;
     width: 450px;
     margin-bottom: 1.5rem;
-    background: var(--white);
     border: 1px solid var(--disabled-color);
     padding: 8px;
     outline: none;
@@ -175,7 +173,7 @@ onMounted(() => {
   }
 
   &__container {
-    background: var(--primary-background-color);
+    background: var(--modal-background-color);
     padding: 20px;
     width: 100%;
     max-width: 600px;

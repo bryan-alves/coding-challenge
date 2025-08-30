@@ -11,6 +11,6 @@
   display: flex;
   min-height: 100vh;
   height: 100%;
-  background: var(--primary-background-color);
+  background: var(--container-background-color);
 }
 </style>

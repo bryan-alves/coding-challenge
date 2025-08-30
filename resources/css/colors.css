@@ -1,28 +1,40 @@
 :root {
   --white: #FFF;
-
   --primary-color: #acdbd3;
   --third-color: #acdbd3;
-
   --primary-text-color: #2b313b;
   --secondary-text-color: #556377;
   --third-text-color: #8696a0;
-
   --border-color: #19b2b2c2;
   --unread-message-color: #14b8a6;
   --disabled-color: #d3d3d3;
-
   --primary-gray-color: #ebecee;
-
   --shadow-modal-color:#00000082;
-
-  --contact-hover-color: #f2f2f2;
-  --selected-channel-color: #0c6f64;
-  --selected-background-color: #acdbd3;
   --primary-background-color: #fcfcfc;
   --secondary-background-color: #f2f9f8;
   --check-message-color: #53bdeb;
-  /*
-  #
-  #fcfcfc*/
+
+  --selected-background-color: #acdbd3;
+  --selected-channel-color: #0c6f64;
+  --channel-badge-border-color: var(--primary-gray-color);
+  --channel-badge-text-color: var(--secondary-text-color);
+  --contact-hover-color: #f2f2f2;
+  --chat-header-color: #FFF;
+  --modal-background-color: var(--primary-background-color);
+  --container-background-color: var(--primary-background-color);
+  --content-background-color: radial-gradient(51.15% 49.94% at 50% 50.06%, var(--primary-background-color) 33.65%, var(--secondary-background-color) 100%);
+}
+
+[data-theme="dark"] {
+  --primary-text-color: #FFF;
+  --secondary-text-color: #77879e;
+  --selected-background-color: #acdbd3;
+  --selected-channel-color: #0c6f64;
+  --channel-badge-border-color: #2B313B;
+  --channel-badge-text-color: #9EA6B2;
+  --contact-hover-color: #2B2B2B;
+  --chat-header-color: #16191e !important;
+  --modal-background-color: #16191e;
+  --container-background-color: #16191e;
+  --content-background-color: radial-gradient(51.15% 49.94% at 50% 50.06%, rgb(22, 25, 30) 33.65%, rgb(6, 58, 52) 100%);
 }

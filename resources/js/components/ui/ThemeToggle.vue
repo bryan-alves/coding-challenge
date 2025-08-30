@@ -26,16 +26,16 @@ onMounted(() => {
   <div class="theme-toggle">
     <input
       type="checkbox"
-      class="checkbox"
-      id="chk"
+      class="theme-toggle__checkbox"
+      id="theme-toggle-check"
       v-model="status"
       :checked="status === 'dark'"
       @change="setTheme"
     />
-    <label class="label" for="chk">
+    <label class="theme-toggle__label" for="theme-toggle-check">
       <Icon icon="ri:moon-fill" width="14" height="14" color="f1c40f" />
       <Icon icon="noto-v1:sun" width="14" height="14" color="var(--white)" />
-      <div class="ball" :class="{'ball--dark' : store.theme === 'dark'}"></div>
+      <div class="theme-toggle__ball" :class="{'theme-toggle__ball--dark' : store.theme === 'dark'}"></div>
     </label>
   </div>
 </template>
@@ -46,12 +46,12 @@ onMounted(() => {
   right: 32px;
   top: 30px;
 
-  .checkbox {
+  &__checkbox {
     opacity: 0;
     position: absolute;
   }
 
-  .label {
+  &__label {
     background-color: var(--primary-text-color);
     border-radius: 50px;
     cursor: pointer;
@@ -65,7 +65,7 @@ onMounted(() => {
     transform: scale(1.5);
   }
 
-  .label .ball {
+  &__ball {
     background-color: var(--white);
     border-radius: 50%;
     position: absolute;
@@ -81,7 +81,7 @@ onMounted(() => {
     }
   }
 
-  .checkbox:checked + .label .ball {
+  &__checkbox:checked + &__label &__ball {
     transform: translateX(20px);
   }
 }

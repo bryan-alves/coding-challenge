@@ -34,7 +34,7 @@ import ChatContent from "@/components/ui/ChatContent.vue";
 
   &__header {
     padding: 0px 32px;
-    background: var(--white);
+    background: var(--chat-header-color);
     height: 80px;
     display: flex;
     align-items: center;

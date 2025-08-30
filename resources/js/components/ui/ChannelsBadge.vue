@@ -21,6 +21,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  onlytext: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const store = useGlobalStore();
@@ -33,6 +37,8 @@ const bind = reactive({
 });
 
 function capitalizeFirstLetter(str) {
+  if (str === "all") return "Todas";
+
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -45,9 +51,10 @@ function capitalizeFirstLetter(str) {
       'channels-badge--small': small,
       'channels-badge--selected': selected,
       'channels-badge--disabled': disabled,
+      'channels-badge--dark': store.theme === 'dark',
     }"
   >
-    <Icon v-bind="bind" />
+    <Icon v-show="channel !== 'all'" v-bind="bind" />
     <span v-show="!onlyIcon">{{ capitalizeFirstLetter(channel) }}</span>
   </div>
 </template>
@@ -57,7 +64,7 @@ function capitalizeFirstLetter(str) {
   padding: 8px 12px;
   cursor: pointer;
   display: flex;
-  border: 1px solid var(--primary-gray-color);
+  border: 1px solid var(--channel-badge-border-color);
   border-radius: 100px;
   min-width: fit-content;
   gap: 0.5rem;
@@ -66,7 +73,7 @@ function capitalizeFirstLetter(str) {
 
   span {
     font-size: 14px;
-    color: var(--secondary-text-color);
+    color: var(--channel-badge-text-color);
   }
 
   &--small {
@@ -84,6 +91,10 @@ function capitalizeFirstLetter(str) {
 
     span {
       color: var(--selected-channel-color);
+    }
+
+    svg {
+      color: var(--selected-channel-color) !important;
     }
   }
 
