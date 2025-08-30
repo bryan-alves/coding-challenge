@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,7 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $channels = ['Whatsapp', 'Messenger', 'Telegram'];
+        $channels = Channel::pluck('name')->toArray(); // pega só o campo 'name'
 
         ##### MOCK MOCK MOCK MOCK #####
         $photo = '/images/contacts/default.png';
