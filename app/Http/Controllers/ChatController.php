@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Channel;
+use App\Models\Contact;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -10,31 +11,9 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $channels = Channel::pluck('name')->toArray(); // pega só o campo 'name'
+        $channels = Channel::pluck('name')->toArray();
 
-        ##### MOCK MOCK MOCK MOCK #####
-        $photo = '/images/contacts/default.png';
-        $people = ['Bryan', 'Kaue', 'Lucas', 'Gustavo', 'Leticia', 'Valeria', 'Juliana', 'Bruno', 'Jefferson', 'Jonas','Bryan', 'Kaue', 'Lucas', 'Gustavo', 'Leticia', 'Valeria', 'Juliana', 'Bruno', 'Jefferson', 'Jonas'];
-
-        $contacts = [];
-
-        foreach ($people as $key => $person) {
-
-            $data = [
-                "id" => $key + 1,
-                "photo" => $photo,
-                "name" => $person,
-                "last_message" => "Olá, tudo bem? Meu nome é {$person} Alves e estou aqui em contato.",
-                "channel" => $channels[rand(0, 2)]
-            ];
-
-            if ($key % 2 === 0) {
-                $data["unread_message"] = 4;
-            }
-
-            $contacts[] = $data;
-        }
-        ##### MOCK MOCK MOCK MOCK #####
+        $contacts = Contact::with('channel')->get();
 
         return Inertia::render('Index', [
             'contacts' => $contacts,

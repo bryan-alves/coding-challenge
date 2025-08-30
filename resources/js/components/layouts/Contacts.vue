@@ -32,19 +32,20 @@ const store = useGlobalStore();
         <div>
           <h6 style="display: flex; align-items: center; color: #2b313b; font-size: 18px">
             {{ contact.name }}&nbsp;&nbsp;
-            <ChannelsBadge :channel="contact.channel" small onlyIcon />
+            <ChannelsBadge :channel="contact.channel.name" small onlyIcon />
           </h6>
           <div class="contacts__content">
             <p
               class="contacts__last-message"
               :style="contact.unread_message ? 'max-width: 232px;' : ''"
             >
-              {{ contact.last_message }}
+              Olá, tudo bem? Meu nome é {{ contact.name }} e estou aqui em contato
+              referente a compra de software corporativos da pipelead.
             </p>
           </div>
         </div>
-        <div v-if="contact.unread_message" class="contacts__unread-message">
-          <span>{{ contact.unread_message }}</span>
+        <div v-if="true || contact.unread_message" class="contacts__unread-message">
+          <span>{{ 50 || contact.unread_message }}</span>
         </div>
       </div>
     </div>
@@ -98,7 +99,7 @@ const store = useGlobalStore();
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 250px;
+    max-width: 340px;
   }
 
   &__unread-message {
