@@ -6,6 +6,7 @@ export const useGlobalStore = defineStore("global", {
     selectedChannel: 'all',
     newMessageModal: false,
     selectedContact: 0,
+    theme: localStorage.getItem("theme") || "light",
   }),
   actions: {
     changeChannel(selected) {
@@ -27,6 +28,14 @@ export const useGlobalStore = defineStore("global", {
       };
 
       return components[channel];
+    },
+    setTheme(theme) {
+      this.theme = theme
+      localStorage.setItem("theme", theme)
+      document.documentElement.setAttribute("data-theme", theme)
+    },
+    toggleTheme() {
+      this.setTheme(this.theme === "light" ? "dark" : "light")
     }
   },
 });
