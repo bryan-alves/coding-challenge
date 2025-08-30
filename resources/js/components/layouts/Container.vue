@@ -11,5 +11,6 @@
   display: flex;
   min-height: 100vh;
   height: 100%;
+  background: #FCFCFD;
 }
 </style>
