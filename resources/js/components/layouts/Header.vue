@@ -26,7 +26,7 @@ const store = useGlobalStore();
   justify-content: space-between;
   width: 100%;
   padding: 32px;
-  background: #FCFCFD;
+  background: var(--primary-background-color);
 
   &__new-message {
     cursor: pointer;

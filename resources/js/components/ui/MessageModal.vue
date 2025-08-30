@@ -50,8 +50,8 @@ onMounted(() => {
       <div
         class="message-modal__container bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6 relative"
       >
-        <h2 class="text-xl font-bold mb-4" style="color: #119d8e">Nova mensagem</h2>
-        <p style="color: #556377; margin-bottom: 0.5rem">
+        <h2 class="text-xl font-bold mb-4" style="color: var(--border-color)">Nova mensagem</h2>
+        <p style="color: var(--secondary-text-color); margin-bottom: 0.5rem">
           Selecione o provedor para ser enviado.
         </p>
 
@@ -87,7 +87,7 @@ onMounted(() => {
         <div style="gap: 1rem" class="flex justify-end space-x-2">
           <button
             @click="emit('close')"
-            style="border: 1px solid #556377; background-color: #fff; color: #556377"
+            style="border: 1px solid var(--secondary-text-color); background-color: var(--white); color: var(--secondary-text-color)"
             class="message-modal__button px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
             :disabled="loading"
           >
@@ -97,7 +97,7 @@ onMounted(() => {
             @click="sendMessage()"
             :disabled="loading"
             class="message-modal__button"
-            style="background-color: #119d8e"
+            style="background-color: var(--border-color)"
           >
             Confirmar
           </button>
@@ -109,56 +109,56 @@ onMounted(() => {
 
 <style lang="scss">
 .message-modal {
-  background: #00000082;
+  background: var(--shadow-modal-color);
 
   &__button {
     &:disabled {
-      background-color: #d3d3d3 !important;
+      background-color: var(--disabled-color) !important;
       border: 0px !important;
-      color: #fff !important;
+      color: var(--white) !important;
     }
   }
 
   &__contacts {
-    color: #556377;
+    color: var(--secondary-text-color);
     margin-top: 1rem;
     display: block;
     height: 35px;
-    background: #fff;
+    background: var(--white);
     border-radius: 4px;
     width: 450px;
     margin-bottom: 1rem;
     padding: 8px;
     font-size: 14px;
-    border: 1px solid rgb(211, 211, 211);
+    border: 1px solid var(--disabled-color);
     outline: 0;
 
     &:disabled {
-      background-color: #d3d3d3;
+      background-color: var(--disabled-color);
     }
 
     &:focus-visible {
-      border-color: #19b2b2c2;
+      border-color: var(--border-color);
     }
   }
 
   &__message {
-    color: #556377;
+    color: var(--secondary-text-color);
     border-radius: 6px;
     font-size: 15px;
     width: 450px;
     margin-bottom: 1.5rem;
-    background: #fff;
-    border: 1px solid rgb(211, 211, 211);
+    background: var(--white);
+    border: 1px solid var(--disabled-color);
     padding: 8px;
     outline: none;
 
     &:disabled {
-      background-color: #d3d3d3;
+      background-color: var(--disabled-color);
     }
 
     &:focus-visible {
-      border-color: #19b2b2c2;
+      border-color: var(--border-color);
     }
   }
 
@@ -170,12 +170,12 @@ onMounted(() => {
     border-radius: 10px;
 
     &--disabled {
-      background-color: #d3d3d3;
+      background-color: var(--disabled-color);
     }
   }
 
   &__container {
-    background: #fcfcfc;
+    background: var(--primary-background-color);
     padding: 20px;
     width: 100%;
     max-width: 600px;
@@ -186,8 +186,8 @@ onMounted(() => {
 }
 
 .spinner {
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #19b2b2c2;
+  border: 8px solid var(--primary-gray-color);
+  border-top: 8px solid var(--border-color);
   border-radius: 50%;
   width: 60px;
   height: 60px;

@@ -54,7 +54,7 @@ const store = useGlobalStore();
     padding: 8px 12px;
     cursor: pointer;
     display: flex;
-    border: 1px solid #ebecee;
+    border: 1px solid var(--primary-gray-color);
     border-radius: 100px;
     min-width: fit-content;
     gap: 0.5rem;
@@ -62,13 +62,16 @@ const store = useGlobalStore();
 
     span {
       font-size: 14px;
-      color: #556377;
+      color: var(--secondary-text-color);
     }
 
     &--selected {
-      background: #acdbd3;
-      border: 1px solid #86cec2;
-      color: #0c6f64;
+      background: var(--selected-background-color);
+      border: 1px solid var(--border-color);
+
+      span {
+        color: var(--selected-channel-color);
+      }
     }
   }
 
@@ -77,19 +80,13 @@ const store = useGlobalStore();
   }
 
   &::-webkit-scrollbar-track {
-    background: #ebecee;
+    background: var(--primary-gray-color);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #119d8e;
+    background: var(--border-color);
     border-radius: 5px;
     width: 20px;
   }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #363636;
-  }
 }
-
-// background: var(--background-tertiary, #ebecee);
 </style>

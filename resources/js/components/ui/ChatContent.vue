@@ -10,7 +10,7 @@
     </div>
 
     <div class="chat-content__row chat-content__sent">
-      <div class="chat-content__msg chat-content__sent" style="background: #acdbd3">
+      <div class="chat-content__msg chat-content__sent" style="background: var(--third-color)">
         <div class="chat-content__text">
           Oi! Quero replicar o estilo do WhatsApp Web só com HTML e CSS.
         </div>
@@ -34,8 +34,8 @@
     display: inline-block;
     margin: 16px auto;
     padding: 6px 12px;
-    background: rgb(85, 99, 119);
-    color: #fff;
+    background: var(--secondary-text-color);
+    color: var(--white);
     font-size: 12px;
     border-radius: 999px;
   }
@@ -64,7 +64,7 @@
     display: flex;
     gap: 6px;
     font-size: 11.5px;
-    color: #8696a0;
+    color: var(--third-text-color);
   }
 
   &__row.received {
@@ -101,11 +101,11 @@
   }
 
   &__check.chat-content__read {
-    color: #53bdeb;
+    color: var(--check-message-color);
   }
 
   &__received {
-    background: #fdfdfd;
+    background: var(--primary-background-color);
     border-top-left-radius: 4px;
   }
 }

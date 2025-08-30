@@ -29,7 +29,7 @@ const bind = reactive({
   icon: store.getChannelIcon(props.channel),
   width: props.small ? "16" : "20",
   height: props.small ? "16" : "20",
-  color: "556377",
+  color: props.selected ? "0c6f64" : "556377",
 });
 
 function capitalizeFirstLetter(str) {
@@ -57,7 +57,7 @@ function capitalizeFirstLetter(str) {
   padding: 8px 12px;
   cursor: pointer;
   display: flex;
-  border: 1px solid #ebecee;
+  border: 1px solid var(--primary-gray-color);
   border-radius: 100px;
   min-width: fit-content;
   gap: 0.5rem;
@@ -66,7 +66,7 @@ function capitalizeFirstLetter(str) {
 
   span {
     font-size: 14px;
-    color: #556377;
+    color: var(--secondary-text-color);
   }
 
   &--small {
@@ -79,13 +79,16 @@ function capitalizeFirstLetter(str) {
   }
 
   &--selected {
-    background: #acdbd3;
-    border: 1px solid #86cec2;
-    color: #0c6f64;
+    background: var(--selected-background-color);
+    border: 1px solid var(--border-color);
+
+    span {
+      color: var(--selected-channel-color);
+    }
   }
 
   &--disabled {
-    background-color: #d3d3d3 !important;
+    background-color: var(--disabled-color) !important;
     border: 0;
   }
 }

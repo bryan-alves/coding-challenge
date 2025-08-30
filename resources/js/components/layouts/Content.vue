@@ -1,5 +1,6 @@
 <script setup>
 import { useGlobalStore } from "@/stores/global";
+import { Icon } from "@iconify/vue";
 import Chat from "../layouts/Chat.vue";
 
 const store = useGlobalStore();
@@ -22,7 +23,14 @@ const store = useGlobalStore();
 <style lang="scss" scoped>
 .content {
   width: 100%;
-  background: radial-gradient(51.15% 49.94% at 50% 50.06%, #fcfcfd 33.65%, #f2f9f8 100%);
+  position: relative;
+  background: radial-gradient(51.15% 49.94% at 50% 50.06%, var(--primary-background-color) 33.65%, var(--secondary-background-color) 100%);
+
+  &__theme {
+    position: absolute;
+    right: 32px;
+    top: 30px;
+  }
 
   &__empty {
     height: 100%;
@@ -32,7 +40,7 @@ const store = useGlobalStore();
   }
 
   input:focus {
-    border-color: #19b2b2c2;
+    border-color: var(--border-color);
     outline: none;
   }
 }

@@ -30,7 +30,7 @@ const store = useGlobalStore();
         "
       >
         <div>
-          <h6 style="display: flex; align-items: center; color: #2b313b; font-size: 18px">
+          <h6 style="display: flex; align-items: center; color: var(--primary-text-color); font-size: 18px">
             {{ contact.name }}&nbsp;&nbsp;
             <ChannelsBadge :channel="contact.channel.name" small onlyIcon />
           </h6>
@@ -55,7 +55,7 @@ const store = useGlobalStore();
   margin-top: -8px;
 
   p {
-    color: #556377;
+    color: var(--secondary-text-color);
   }
 
   &__container {
@@ -64,12 +64,12 @@ const store = useGlobalStore();
     padding: 10px 32px;
 
     &:hover {
-      background: #f2f2f2;
+      background: var(--contact-hover-color);
       cursor: pointer;
     }
 
     &--selected {
-      background: #f2f2f2 !important;
+      background: var(--contact-hover-color) !important;
     }
   }
 
@@ -78,12 +78,6 @@ const store = useGlobalStore();
     min-width: 56px;
     border-radius: 50%;
     overflow: hidden;
-  }
-
-  &__origin {
-    font-size: 12px;
-    font-weight: 500;
-    color: #747474;
   }
 
   &__content {
@@ -103,12 +97,12 @@ const store = useGlobalStore();
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #14b8a6;
+    background: var(--unread-message-color);
 
     border-radius: 50%;
     width: 20px;
     height: 20px;
-    color: #fff;
+    color: var(--white);
     font-weight: 700;
   }
 
@@ -117,17 +111,13 @@ const store = useGlobalStore();
   }
 
   &::-webkit-scrollbar-track {
-    background: #ebecee;
+    background: var(--primary-gray-color);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #119d8e;
+    background: var(--border-color);
     border-radius: 5px;
     width: 20px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #363636;
   }
 }
 </style>

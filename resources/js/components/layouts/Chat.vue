@@ -34,7 +34,7 @@ import ChatContent from "@/components/ui/ChatContent.vue";
 
   &__header {
     padding: 0px 32px;
-    background: #fff;
+    background: var(--white);
     height: 80px;
     display: flex;
     align-items: center;
@@ -51,7 +51,7 @@ import ChatContent from "@/components/ui/ChatContent.vue";
   &__contact {
     display: flex;
     align-items: center;
-    color: #2b313b;
+    color: var(--primary-text-color);
     font-size: 18px;
   }
 
@@ -62,7 +62,7 @@ import ChatContent from "@/components/ui/ChatContent.vue";
   &__send {
     height: 60px;
     padding: 10px 20px 10px 20px;
-    background: #fff;
+    background: var(--white);
     border-radius: 50px;
     display: flex;
     align-items: center;
@@ -76,7 +76,7 @@ import ChatContent from "@/components/ui/ChatContent.vue";
 
   &__btn {
     cursor: pointer;
-    background: #acdbd3;
+    background: var(--selected-background-color);
     height: 40px;
     width: 40px;
     border-radius: 50%;
