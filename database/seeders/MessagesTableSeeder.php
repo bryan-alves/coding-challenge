@@ -9,7 +9,6 @@ class MessagesTableSeeder extends Seeder
 {
     public function run(): void
     {
-        // cria 50 mensagens
         Message::factory(50)->create();
     }
 }

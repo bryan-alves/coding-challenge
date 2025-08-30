@@ -18,7 +18,7 @@ class ContactFactory extends Factory
     public function definition(): array
     {
         return [
-            'channel_id' => Channel::inRandomOrder()->first()->id, // sorteia um channel
+            'channel_id' => Channel::inRandomOrder()->first()->id,
             'name'       => $this->faker->name(),
             'photo'      => 'https://placehold.co/150x150?text=' . urlencode($this->faker->firstName()),
         ];
