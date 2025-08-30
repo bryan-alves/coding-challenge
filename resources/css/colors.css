@@ -1,0 +1,28 @@
+:root {
+  --white: #FFF;
+
+  --primary-color: #acdbd3;
+  --third-color: #acdbd3;
+
+  --primary-text-color: #2b313b;
+  --secondary-text-color: #556377;
+  --third-text-color: #8696a0;
+
+  --border-color: #19b2b2c2;
+  --unread-message-color: #14b8a6;
+  --disabled-color: #d3d3d3;
+
+  --primary-gray-color: #ebecee;
+
+  --shadow-modal-color:#00000082;
+
+  --contact-hover-color: #f2f2f2;
+  --selected-channel-color: #0c6f64;
+  --selected-background-color: #acdbd3;
+  --primary-background-color: #fcfcfc;
+  --secondary-background-color: #f2f9f8;
+  --check-message-color: #53bdeb;
+  /*
+  #
+  #fcfcfc*/
+}
