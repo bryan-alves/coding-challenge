@@ -24,20 +24,20 @@ export const useGlobalStore = defineStore("global", {
       this.selectedContact = contactId;
       Inertia.post('/read-message', { contact_id: contactId });
       this.fetchMessages(true);
-      // this.startPolling();
+      this.startPolling();
     },
-    fetchMessages(reset = false) {
+    async fetchMessages(reset = false, forPolling = false, forScrollTop = false) {
+      if (!this.selectedContact) return;
+
+      if (reset) {
+        this.messagesPage = 1;
+        this.hasMoreMessages = true;
+        this.messages = [];
+      }
+
+      if (!this.hasMoreMessages && !forPolling) return;
+
       return new Promise((resolve) => {
-        if (!this.selectedContact) return resolve();
-
-        if (reset) {
-          this.messagesPage = 1;
-          this.hasMoreMessages = true;
-          this.messages = [];
-        }
-
-        if (!this.hasMoreMessages) return resolve();
-
         Inertia.get(
           '/',
           { contact_id: this.selectedContact, page: this.messagesPage },
@@ -46,21 +46,31 @@ export const useGlobalStore = defineStore("global", {
             replace: true,
             onSuccess: (page) => {
               const newMessages = page.props.messages.data.reverse();
-              if (newMessages.length === 0) this.hasMoreMessages = false;
 
-              this.messages = [...newMessages, ...this.messages];
-              this.messagesPage++;
+              if (forPolling) {
+                const existingIds = this.messages.map(m => m.id);
+                const messagesToAdd = newMessages.filter(m => !existingIds.includes(m.id));
+                this.messages = [...this.messages, ...messagesToAdd];
+              } else if (forScrollTop) {
+                if (newMessages.length === 0) this.hasMoreMessages = false;
+                this.messages = [...newMessages, ...this.messages];
+                this.messagesPage++;
+              } else if (reset) {
+                this.messages = [...newMessages];
+                this.messagesPage++;
+              }
+
               resolve();
             }
           }
         );
       });
-    },
+    }
+      ,
     startPolling() {
       this.stopPolling();
-
       this.pollingInterval = setInterval(() => {
-        this.fetchMessages();
+        this.fetchMessages(false, true);
       }, 5000);
     },
     stopPolling() {

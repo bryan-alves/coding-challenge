@@ -1,46 +1,37 @@
 <script setup>
-import { ref, onMounted, nextTick, watch } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import { Icon } from "@iconify/vue";
 import ChatContent from "@/components/ui/ChatContent.vue";
 import { useGlobalStore } from "@/stores/global";
 
 const store = useGlobalStore();
 const chatContentRef = ref(null);
-
 let loadingOldMessages = false;
 
 const onScroll = async () => {
-  if (chatContentRef.value.scrollTop === 0 && store.hasMoreMessages) {
+  const el = chatContentRef.value;
+  if (el.scrollTop === 0 && store.hasMoreMessages && !loadingOldMessages) {
     loadingOldMessages = true;
-    const previousHeight = chatContentRef.value.scrollHeight;
 
-    await store.fetchMessages();
+    const previousHeight = el.scrollHeight;
+
+    await store.fetchMessages(false, false, true);
 
     nextTick(() => {
-      chatContentRef.value.scrollTop = chatContentRef.value.scrollHeight - previousHeight;
+      el.scrollTop = el.scrollHeight - previousHeight;
       loadingOldMessages = false;
     });
   }
 };
 
-watch(
-  () => store.messages,
-  () => {
-    nextTick(() => {
-      if (!loadingOldMessages) {
-        chatContentRef.value.scrollTop = chatContentRef.value.scrollHeight;
-      }
-    });
-  },
-  { deep: true }
-);
-
-onMounted(() => {
+onMounted(async () => {
+  await store.fetchMessages(true);
   nextTick(() => {
     chatContentRef.value.scrollTop = chatContentRef.value.scrollHeight;
   });
 });
 </script>
+
 
 <template>
   <div class="chat" style="height: 100%">
