@@ -40,8 +40,8 @@ class ChatController extends Controller
 
             if ($request->contact_id) {
                 $messages = Message::where('contact_id', $request->contact_id)
-                ->orderBy('id', 'desc')
-                ->paginate(20);
+                    ->orderBy('id', 'desc')
+                    ->paginate(20);
             }
 
             return Inertia::render('Index', [
@@ -51,54 +51,79 @@ class ChatController extends Controller
                 'messages' => $messages
             ]);
         } catch(Exception $e) {
-            \Log::error("Erro ler mensagem", ['exception' => $e]);
+            \Log::error("Erro ao listar mensagens", [
+                'exception' => $e->getMessage(),
+                'request' => $request->all()
+            ]);
 
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ], 500);
+            return back()->withErrors([
+                'error' => 'Não foi possível listar as mensagens!'
+            ]);
         }
     }
 
     public function readMessage(Request $request)
     {
         try {
-            \Log::info("Mensagem lida", [$request->all()]);
+            if (!$request->has('contact_id') || empty($request->contact_id)) {
+                throw new \Exception("contact_id é obrigatório");
+            }
 
             Message::where('contact_id', $request->contact_id)
                 ->where('is_read', false)
                 ->update(['is_read' => true]);
 
-            return $this->index($request);
+            return redirect()->back()->with([
+                'success' => true,
+            ]);
         } catch(Exception $e) {
-            \Log::error("Erro ler mensagem", ['exception' => $e]);
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ], 500);
+            \Log::error("Erro ao ler mensagem", [
+                'exception' => $e->getMessage(),
+                'request' => $request->all()
+            ]);
+
+            return back()->withErrors([
+                'error' => 'Não foi ler a mensagem deste contato, tente novamente!'
+            ]);
         }
     }
 
     public function sendMessage(Request $request)
     {
         try {
-            \Log::info("Mensagem enviada", [$request->all()]);
+            if (!$request->has('contact_id') || empty($request->contact_id)) {
+                throw new \Exception("contact_id é obrigatório");
+            }
+
+            if (!$request->has('message') || empty($request->message)) {
+                throw new \Exception("message é obrigatório");
+            }
+
+            if ($request->message === '123erro') {
+                throw new \Exception('Erro simulado!');
+            }
 
             Message::create([
                 'user_id'    => 1,
                 'contact_id' => $request->contact_id,
-                'message'    => $request->content,
+                'message'    => $request->message,
                 'origin'     => 'sent',
                 'is_read'    => false,
             ]);
 
-            return $this->index($request);
+            return redirect()->back()->with([
+                'success' => true,
+                'contact_id' => $request->contact_id,
+            ]);
         } catch(Exception $e) {
-            \Log::error("Erro ao enviar mensagem", ['exception' => $e]);
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ], 500);
+            \Log::error("Erro ao enviar mensagem", [
+                'exception' => $e->getMessage(),
+                'request' => $request->all()
+            ]);
+
+            return back()->withErrors([
+                'error' => 'Não foi possível enviar a mensagem, tente novamente!'
+            ]);
         }
     }
 }

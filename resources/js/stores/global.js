@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { Inertia } from '@inertiajs/inertia';
-import axios from "axios"
 
 export const useGlobalStore = defineStore("global", {
   state: () => ({
@@ -25,9 +24,22 @@ export const useGlobalStore = defineStore("global", {
       if (!contactId) { this.selectedContact = 0; return};
 
       this.selectedContact = contactId;
-      Inertia.post('/read-message', { contact_id: contactId });
-      this.fetchMessages(true);
-      // this.startPolling();
+
+      Inertia.post('/read-message',
+        {
+          contact_id: contactId
+        },
+        {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+          this.fetchMessages(true, true);
+          // this.startPolling();
+        },
+        onError: ({error}) => {
+          alert(error)
+        }
+      });
     },
     async fetchMessages(reset = false, forPolling = false, forScrollTop = false) {
       if (!this.selectedContact) return;
@@ -81,15 +93,22 @@ export const useGlobalStore = defineStore("global", {
         this.pollingInterval = null;
       }
     },
-    async sendMessage(content) {
-      if (!this.selectedContact || !content) return;
+    async sendMessage(message) {
+      if (!this.selectedContact || !message) return;
 
-      await axios.post("/send-message", {
+      Inertia.post("/send-message", {
         contact_id: this.selectedContact,
-        content,
+        message,
+      }, {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+          this.fetchMessages(true, true);
+        },
+        onError: ({error}) => {
+          alert(error)
+        }
       });
-
-      await this.fetchMessages(true, true);
     },
     getChannelIcon(channel) {
       const components = {

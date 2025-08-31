@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useGlobalStore } from "@/stores/global";
 import ChannelsBadge from "@/components/ui/ChannelsBadge.vue";
 
@@ -13,8 +13,12 @@ const store = useGlobalStore();
 
 const isOpen = ref(true);
 const loading = ref(false);
-
 const selectedChannel = ref("all");
+
+const formData = reactive({
+  channel: '',
+  contact: ''
+})
 
 function changeChannel(channel) {
   if (loading.value) return;
@@ -25,10 +29,9 @@ function changeChannel(channel) {
 function sendMessage() {
   try {
     loading.value = true;
-    setTimeout(() => {
-      loading.value = false;
-      emit("close");
-    }, 3000);
+
+
+    store.sendMessage();
   } catch (error) {
   } finally {
   }
