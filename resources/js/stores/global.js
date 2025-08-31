@@ -6,6 +6,8 @@ export const useGlobalStore = defineStore("global", {
     selectedChannel: 'all',
     newMessageModal: false,
     selectedContact: 0,
+    selectedContactName: '',
+    selectedContactPhoto: '',
     theme: localStorage.getItem("theme") || "light",
     messages: [],
     pollingInterval: null,
@@ -20,10 +22,17 @@ export const useGlobalStore = defineStore("global", {
     toggleNewMessageModal(status) {
       this.newMessageModal = status;
     },
-    changeContact(contactId) {
-      if (!contactId) { this.selectedContact = 0; return};
+    changeContact(contactId, contactName, contactPhoto) {
+      if (!contactId) {
+        this.selectedContact = 0;
+        this.selectedContactName = '';
+        this.selectedContactPhoto = '';
+        return
+      };
 
       this.selectedContact = contactId;
+      this.selectedContactName = contactName;
+      this.selectedContactPhoto = contactPhoto;
 
       Inertia.post('/read-message',
         {

@@ -31,8 +31,6 @@ async function sendMessage() {
   if (!messageToSend.value) return;
   await store.sendMessage(messageToSend.value);
   messageToSend.value = "";
-
-  console.log(messageToSend.value)
 }
 
 onMounted(async () => {
@@ -44,12 +42,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="chat" style="height: 100%">
+  <div class="chat">
     <div class="chat__header">
       <div class="chat__photo">
-        <img src="/public/images/contacts/default.png" alt="" />
+        <img :src="store.selectedContactPhoto" alt="" />
       </div>
-      <h6 class="chat__contact">Nome</h6>
+      <h6 class="chat__contact">{{ store.selectedContactName }}</h6>
     </div>
 
     <div class="chat__content" ref="chatContentRef" @scroll="onScroll">
@@ -74,6 +72,7 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .chat {
+  height: 100%;
   &__content {
     max-height: calc(100vh - 180px);
     height: 100%;
