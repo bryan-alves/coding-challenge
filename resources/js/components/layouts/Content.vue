@@ -24,7 +24,7 @@ function closeChat() {
         color="#df4d4d"
       />
     </div>
-    <div v-if="store.selectedContact" style="height: 100%" @keyup.esc="closeChat">
+    <div v-if="store.selectedContact" class="content__body" @keyup.esc="closeChat">
       <Chat />
     </div>
     <div class="content__empty" v-else>
@@ -38,6 +38,10 @@ function closeChat() {
   width: 100%;
   position: relative;
   background: var(--content-background-color);
+
+  &__body {
+    height: 100%;
+  }
 
   &__close {
     position: absolute;
