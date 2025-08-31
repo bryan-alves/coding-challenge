@@ -1,7 +1,6 @@
 # 📋 Desafio Técnico: Desenvolvedor Pleno Full Stack (Laravel/Vue)
 
 ## 🎯 Como subir o projeto
-
 ### Obs.: Necessário ter o docker instalado;
 
 1. ✅ **Acesse o terminal para rodar os comandos seguintes;**
@@ -12,3 +11,13 @@
 6. ✅ **Entrar no container da aplicação:** docker exec -it pipelead-app bash;
 7. ✅ **Comando para gerar os contatos:** php artisan contacts:generate (Irá gerar 20 contatos);
 8. ✅ **Comando para gerar os mensagens:** php artisan messages:generate (Irá gerar 50 mensagens para diversos contatos);
+
+## 📋 Informações
+
+1. É possível enviar uma mensagem apertando enter.
+2. É possível fechar uma mensagem apertando esc.
+3. Ao enviar um mensagem escrita '123erro', será simulado um erro no back-end.
+4. Há logs e tratativas para os erros no back-end e no front-end;
+5. Foi utilizado o padrão BEM no css e foram definidas todas as variaveis de cor no css;
+6. Foi utilizado o commilit para validação dos commits;
+7. Foi utilizado docker para proporcionar um ambiente consistente;
