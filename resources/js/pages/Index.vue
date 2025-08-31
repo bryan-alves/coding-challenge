@@ -19,16 +19,16 @@ const props = defineProps({
 
 const store = useGlobalStore();
 
-onMounted(() => {
+onMounted(async () => {
   const params = new URLSearchParams(window.location.search);
   const channel = params.get("channel") || "all";
 
-  store.changeChannel(channel);
+  await store.changeChannel(channel);
 });
 </script>
 
 <template>
-  <div>
+  <div @keyup.esc="store.changeContact(false);">
     <Head>
       <title>{{ "Pipechat" }}</title>
       <link rel="icon" href="/images/logo.png" />

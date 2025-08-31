@@ -17,9 +17,14 @@ export const useGlobalStore = defineStore("global", {
   actions: {
     changeChannel(selected) {
       this.selectedChannel = selected;
-      Inertia.get('/', this.mergeQueryParams({ channel: selected }, ['contact_id', 'page']), {
-        preserveState: true,
-        replace: true,
+
+      return new Promise((resolve, reject) => {
+        Inertia.get('/', this.mergeQueryParams({ channel: selected }, ['contact_id', 'page']), {
+          preserveState: true,
+          replace: true,
+          onSuccess: () => resolve(),
+          onError: (err) => reject(err),
+        });
       });
     },
     toggleNewMessageModal(status) {
@@ -30,32 +35,32 @@ export const useGlobalStore = defineStore("global", {
         this.selectedContact = 0;
         this.selectedContactName = '';
         this.selectedContactPhoto = '';
-        return;
+        return Promise.resolve();
       }
 
       if (contactId === this.selectedContact) {
-        return;
+        return Promise.resolve();
       }
 
       this.selectedContact = contactId;
       this.selectedContactName = contactName;
       this.selectedContactPhoto = contactPhoto;
 
-      Inertia.post(
-        '/read-message',
-        this.mergeQueryParams({ contact_id: contactId }, ['page']),
-        {
-          preserveState: true,
-          preserveScroll: true,
-          onSuccess: () => {
-            this.fetchMessages(true, true);
-            // this.startPolling();
-          },
-          onError: ({ error }) => {
-            alert(error);
-          },
-        }
-      );
+      return new Promise((resolve, reject) => {
+        Inertia.post(
+          '/read-message',
+          { contact_id: contactId },
+          {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => {
+              this.fetchMessages(true, true).then(resolve).catch(reject);
+              // this.startPolling();
+            },
+            onError: (err) => reject(err),
+          }
+        );
+      });
     },
 
     async fetchMessages(reset = false, forPolling = false, forScrollTop = false) {
@@ -72,7 +77,7 @@ export const useGlobalStore = defineStore("global", {
       return new Promise((resolve) => {
         Inertia.get(
           '/',
-          this.mergeQueryParams({ contact_id: this.selectedContact, page: this.messagesPage }),
+          this.mergeQueryParams({ contact_id: this.selectedContact, page: this.messagesPage }, ['modalChannel']),
           {
             preserveState: true,
             replace: true,
@@ -112,28 +117,28 @@ export const useGlobalStore = defineStore("global", {
         this.pollingInterval = null;
       }
     },
-    async sendMessage(message, contact_id = '') {
-      if ((!this.selectedContact && contact_id) || !message) return;
+    sendMessage(message, contact_id = '') {
+      if ((!this.selectedContact && !contact_id) || !message) return Promise.resolve();
 
       let contactId = this.selectedContact;
       if (contact_id) {
         contactId = contact_id;
       }
 
-      Inertia.post(
-        "/send-message",
-        { contact_id: contactId, message },
-        {
-          preserveState: true,
-          preserveScroll: true,
-          onSuccess: () => {
-            this.fetchMessages(true, true);
-          },
-          onError: ({ error }) => {
-            alert(error);
-          },
-        }
-      );
+      return new Promise((resolve, reject) => {
+        Inertia.post(
+          "/send-message",
+          { contact_id: contactId, message },
+          {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => {
+              this.fetchMessages(true, true).then(resolve).catch(reject);
+            },
+            onError: (err) => reject(err),
+          }
+        );
+      });
     },
 
     getChannelIcon(channel) {
