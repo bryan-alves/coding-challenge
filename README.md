@@ -21,8 +21,9 @@
 5. É possível enviar uma mensagem apertando enter;
 6. É possível fechar uma mensagem apertando esc;
 7. Ao enviar um mensagem escrita '123erro', será simulado um erro no back-end;
-8. Abaixo do logo, ao selecionar um canal, irá trazer somente os contatos daquele canal;
-9. Há logs e tratativas para os erros no back-end e no front-end;
-10. Foi utilizado o padrão BEM no css;
-11. Foi utilizado o commilit para validação dos commits;
-12. Foi utilizado docker para proporcionar um ambiente consistente;
+8. Scroll infinito na conversa, corregando as mensagens conforme chega no topo;
+9. Abaixo do logo, ao selecionar um canal, irá trazer somente os contatos daquele canal;
+10. Há logs e tratativas para os erros no back-end e no front-end;
+11. Foi utilizado o padrão BEM no css;
+12. Foi utilizado o commilit para validação dos commits;
+13. Foi utilizado docker para proporcionar um ambiente consistente;
