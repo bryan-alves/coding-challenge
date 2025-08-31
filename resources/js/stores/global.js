@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { Inertia } from '@inertiajs/inertia';
+import { nextTick } from "vue";
 
 export const useGlobalStore = defineStore("global", {
   state: () => ({
@@ -17,7 +18,6 @@ export const useGlobalStore = defineStore("global", {
   actions: {
     changeChannel(selected) {
       this.selectedChannel = selected;
-
       return new Promise((resolve, reject) => {
         Inertia.get('/', this.mergeQueryParams({ channel: selected }, ['contact_id', 'page']), {
           preserveState: true,
@@ -35,6 +35,7 @@ export const useGlobalStore = defineStore("global", {
         this.selectedContact = 0;
         this.selectedContactName = '';
         this.selectedContactPhoto = '';
+        this.messages = [];
         return Promise.resolve();
       }
 
@@ -45,6 +46,7 @@ export const useGlobalStore = defineStore("global", {
       this.selectedContact = contactId;
       this.selectedContactName = contactName;
       this.selectedContactPhoto = contactPhoto;
+      this.messages = [];
 
       return new Promise((resolve, reject) => {
         Inertia.post(
@@ -54,17 +56,26 @@ export const useGlobalStore = defineStore("global", {
             preserveState: true,
             preserveScroll: true,
             onSuccess: () => {
-              this.fetchMessages(true, true).then(resolve).catch(reject);
-              // this.startPolling();
+              this.fetchMessages(true, true).then(() => {
+                nextTick(() => {
+                  const chat = document.querySelector('.chat__content');
+                  if (chat && this.messages.length > 0) {
+                    chat.scrollTop = chat.scrollHeight;
+                  }
+                });
+                resolve();
+              }).catch(reject);
             },
             onError: (err) => reject(err),
           }
         );
       });
     },
-
     async fetchMessages(reset = false, forPolling = false, forScrollTop = false) {
-      if (!this.selectedContact) return;
+      if (!this.selectedContact) {
+        this.messages = [];
+        return;
+      }
 
       if (reset) {
         this.messagesPage = 1;
@@ -80,6 +91,7 @@ export const useGlobalStore = defineStore("global", {
           this.mergeQueryParams({ contact_id: this.selectedContact, page: this.messagesPage }, ['modalChannel']),
           {
             preserveState: true,
+            preserveScroll: true,
             replace: true,
             onSuccess: (page) => {
               const newMessages = page.props.messages.data.reverse();
@@ -103,14 +115,12 @@ export const useGlobalStore = defineStore("global", {
         );
       });
     },
-
     startPolling() {
       this.stopPolling();
       this.pollingInterval = setInterval(() => {
         this.fetchMessages(false, true);
       }, 5000);
     },
-
     stopPolling() {
       if (this.pollingInterval) {
         clearInterval(this.pollingInterval);
@@ -133,14 +143,19 @@ export const useGlobalStore = defineStore("global", {
             preserveState: true,
             preserveScroll: true,
             onSuccess: () => {
-              this.fetchMessages(true, true).then(resolve).catch(reject);
+              this.fetchMessages(true, true).then(() => {
+                nextTick(() => {
+                  const chat = document.querySelector('.chat__content');
+                  if (chat) chat.scrollTop = chat.scrollHeight;
+                });
+                resolve();
+              }).catch(reject);
             },
             onError: (err) => reject(err),
           }
         );
       });
     },
-
     getChannelIcon(channel) {
       const components = {
         whatsapp: 'mdi:whatsapp',
@@ -149,17 +164,14 @@ export const useGlobalStore = defineStore("global", {
       };
       return components[channel];
     },
-
     setTheme(theme) {
       this.theme = theme;
       localStorage.setItem("theme", theme);
       document.documentElement.setAttribute("data-theme", theme);
     },
-
     toggleTheme() {
       this.setTheme(this.theme === "light" ? "dark" : "light");
     },
-
     mergeQueryParams(newParams = {}, removeParams = []) {
       const currentParams = Object.fromEntries(new URLSearchParams(window.location.search));
 
@@ -173,7 +185,5 @@ export const useGlobalStore = defineStore("global", {
 
       return { ...currentParams, ...newParams };
     }
-
-
   },
 });
