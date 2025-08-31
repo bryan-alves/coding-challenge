@@ -27,7 +27,7 @@ export const useGlobalStore = defineStore("global", {
       this.selectedContact = contactId;
       Inertia.post('/read-message', { contact_id: contactId });
       this.fetchMessages(true);
-      this.startPolling();
+      // this.startPolling();
     },
     async fetchMessages(reset = false, forPolling = false, forScrollTop = false) {
       if (!this.selectedContact) return;
