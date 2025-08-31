@@ -5,6 +5,9 @@ import ChatContent from "@/components/ui/ChatContent.vue";
 import { useGlobalStore } from "@/stores/global";
 
 const store = useGlobalStore();
+
+const messageToSend = ref("");
+
 const chatContentRef = ref(null);
 let loadingOldMessages = false;
 
@@ -24,6 +27,14 @@ const onScroll = async () => {
   }
 };
 
+async function sendMessage() {
+  if (!messageToSend.value) return;
+  await store.sendMessage(messageToSend.value);
+  messageToSend.value = "";
+
+  console.log(messageToSend.value)
+}
+
 onMounted(async () => {
   await store.fetchMessages(true);
   nextTick(() => {
@@ -31,7 +42,6 @@ onMounted(async () => {
   });
 });
 </script>
-
 
 <template>
   <div class="chat" style="height: 100%">
@@ -48,8 +58,13 @@ onMounted(async () => {
 
     <div class="chat__bottom">
       <div class="chat__send">
-        <input type="text" placeholder="Digite uma mensagem" />
-        <div class="chat__btn">
+        <input
+          type="text"
+          placeholder="Digite uma mensagem"
+          v-model="messageToSend"
+          @keyup.enter="sendMessage"
+        />
+        <div class="chat__btn" @click="sendMessage">
           <Icon :icon="'material-symbols:send'" width="22" height="22" color="2B313B" />
         </div>
       </div>

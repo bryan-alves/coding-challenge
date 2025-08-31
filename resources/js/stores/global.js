@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { Inertia } from '@inertiajs/inertia';
+import axios from "axios"
 
 export const useGlobalStore = defineStore("global", {
   state: () => ({
@@ -21,6 +22,8 @@ export const useGlobalStore = defineStore("global", {
       this.newMessageModal = status;
     },
     changeContact(contactId) {
+      if (!contactId) { this.selectedContact = 0; return};
+
       this.selectedContact = contactId;
       Inertia.post('/read-message', { contact_id: contactId });
       this.fetchMessages(true);
@@ -65,8 +68,7 @@ export const useGlobalStore = defineStore("global", {
           }
         );
       });
-    }
-      ,
+    },
     startPolling() {
       this.stopPolling();
       this.pollingInterval = setInterval(() => {
@@ -78,6 +80,16 @@ export const useGlobalStore = defineStore("global", {
         clearInterval(this.pollingInterval);
         this.pollingInterval = null;
       }
+    },
+    async sendMessage(content) {
+      if (!this.selectedContact || !content) return;
+
+      await axios.post("/send-message", {
+        contact_id: this.selectedContact,
+        content,
+      });
+
+      await this.fetchMessages(true, true);
     },
     getChannelIcon(channel) {
       const components = {
