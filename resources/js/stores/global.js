@@ -17,7 +17,10 @@ export const useGlobalStore = defineStore("global", {
   actions: {
     changeChannel(selected) {
       this.selectedChannel = selected;
-      Inertia.get('/', { channel: selected }, { preserveState: true });
+      Inertia.get('/', this.mergeQueryParams({ channel: selected }, ['contact_id', 'page']), {
+        preserveState: true,
+        replace: true,
+      });
     },
     toggleNewMessageModal(status) {
       this.newMessageModal = status;
@@ -27,8 +30,8 @@ export const useGlobalStore = defineStore("global", {
         this.selectedContact = 0;
         this.selectedContactName = '';
         this.selectedContactPhoto = '';
-        return
-      };
+        return;
+      }
 
       if (contactId === this.selectedContact) {
         return;
@@ -38,22 +41,23 @@ export const useGlobalStore = defineStore("global", {
       this.selectedContactName = contactName;
       this.selectedContactPhoto = contactPhoto;
 
-      Inertia.post('/read-message',
+      Inertia.post(
+        '/read-message',
+        this.mergeQueryParams({ contact_id: contactId }, ['page']),
         {
-          contact_id: contactId
-        },
-        {
-        preserveState: true,
-        preserveScroll: true,
-        onSuccess: () => {
-          this.fetchMessages(true, true);
-          // this.startPolling();
-        },
-        onError: ({error}) => {
-          alert(error)
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.fetchMessages(true, true);
+            // this.startPolling();
+          },
+          onError: ({ error }) => {
+            alert(error);
+          },
         }
-      });
+      );
     },
+
     async fetchMessages(reset = false, forPolling = false, forScrollTop = false) {
       if (!this.selectedContact) return;
 
@@ -68,7 +72,7 @@ export const useGlobalStore = defineStore("global", {
       return new Promise((resolve) => {
         Inertia.get(
           '/',
-          { contact_id: this.selectedContact, page: this.messagesPage },
+          this.mergeQueryParams({ contact_id: this.selectedContact, page: this.messagesPage }),
           {
             preserveState: true,
             replace: true,
@@ -89,17 +93,19 @@ export const useGlobalStore = defineStore("global", {
               }
 
               resolve();
-            }
+            },
           }
         );
       });
     },
+
     startPolling() {
       this.stopPolling();
       this.pollingInterval = setInterval(() => {
         this.fetchMessages(false, true);
       }, 5000);
     },
+
     stopPolling() {
       if (this.pollingInterval) {
         clearInterval(this.pollingInterval);
@@ -107,47 +113,62 @@ export const useGlobalStore = defineStore("global", {
       }
     },
     async sendMessage(message, contact_id = '') {
-
-
-
       if ((!this.selectedContact && contact_id) || !message) return;
 
       let contactId = this.selectedContact;
-
       if (contact_id) {
-        contactId = contact_id
+        contactId = contact_id;
       }
 
-      Inertia.post("/send-message", {
-        contact_id: contactId,
-        message,
-      }, {
-        preserveState: true,
-        preserveScroll: true,
-        onSuccess: () => {
-          this.fetchMessages(true, true);
-        },
-        onError: ({error}) => {
-          alert(error)
+      Inertia.post(
+        "/send-message",
+        { contact_id: contactId, message },
+        {
+          preserveState: true,
+          preserveScroll: true,
+          onSuccess: () => {
+            this.fetchMessages(true, true);
+          },
+          onError: ({ error }) => {
+            alert(error);
+          },
         }
-      });
+      );
     },
+
     getChannelIcon(channel) {
       const components = {
         whatsapp: 'mdi:whatsapp',
         telegram: 'basil:telegram-outline',
         messenger: 'mingcute:messenger-line',
       };
-
       return components[channel];
     },
+
     setTheme(theme) {
       this.theme = theme;
       localStorage.setItem("theme", theme);
       document.documentElement.setAttribute("data-theme", theme);
     },
+
     toggleTheme() {
       this.setTheme(this.theme === "light" ? "dark" : "light");
+    },
+
+    mergeQueryParams(newParams = {}, removeParams = []) {
+      const currentParams = Object.fromEntries(new URLSearchParams(window.location.search));
+
+      if (Array.isArray(removeParams)) {
+        removeParams.forEach(param => {
+          if (currentParams.hasOwnProperty(param)) {
+            delete currentParams[param];
+          }
+        });
+      }
+
+      return { ...currentParams, ...newParams };
     }
+
+
   },
 });
