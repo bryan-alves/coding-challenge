@@ -106,11 +106,20 @@ export const useGlobalStore = defineStore("global", {
         this.pollingInterval = null;
       }
     },
-    async sendMessage(message) {
-      if (!this.selectedContact || !message) return;
+    async sendMessage(message, contact_id = '') {
+
+
+
+      if ((!this.selectedContact && contact_id) || !message) return;
+
+      let contactId = this.selectedContact;
+
+      if (contact_id) {
+        contactId = contact_id
+      }
 
       Inertia.post("/send-message", {
-        contact_id: this.selectedContact,
+        contact_id: contactId,
         message,
       }, {
         preserveState: true,

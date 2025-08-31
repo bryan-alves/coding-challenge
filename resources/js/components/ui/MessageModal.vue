@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, reactive, ref } from "vue";
 import { useGlobalStore } from "@/stores/global";
+import { Inertia } from "@inertiajs/inertia";
 import ChannelsBadge from "@/components/ui/ChannelsBadge.vue";
 
 const emit = defineEmits(["close"]);
@@ -13,33 +14,72 @@ const store = useGlobalStore();
 
 const isOpen = ref(true);
 const loading = ref(false);
-const selectedChannel = ref("all");
 
 const formData = reactive({
-  channel: '',
-  contact: ''
-})
+  channel: "",
+  message: "",
+  contact_id: 1,
+});
+
+const contacts = ref([]);
 
 function changeChannel(channel) {
   if (loading.value) return;
 
-  selectedChannel.value = channel;
+  formData.channel = channel;
+
+  Inertia.get(
+    "/",
+    { modalChannel: channel },
+    {
+      preserveState: true,
+      preserveScroll: true,
+      onSuccess: () => {
+      },
+      onError: ({ error }) => {
+        alert(error);
+      },
+    }
+  );
 }
 
-function sendMessage() {
-  try {
-    loading.value = true;
+function closeModal() {
+  contacts.value = [];
+  emit("close");
+}
 
+async function sendMessage() {
+  loading.value = true;
 
-    store.sendMessage();
-  } catch (error) {
-  } finally {
+  if (!formData.channel) {
+    loading.value = false;
+    return alert("Selecione o canal");
   }
+
+  if (!formData.contact_id) {
+    loading.value = false;
+    return alert("Selecione o contato");
+  }
+
+  if (!formData.message) {
+    loading.value = false;
+    return alert("Preencha a mensagem");
+  }
+
+  await store.sendMessage(formData.message, formData.contact_id);
+
+  formData.message = "";
+
+  closeModal();
+
+  store.changeContact(formData.contact_id);
+
+  loading.value = false;
 }
 
 onMounted(() => {
   if (props?.channels.includes(store.selectedChannel)) {
-    selectedChannel.value = store.selectedChannel;
+    formData.channel = store.selectedChannel;
   }
 });
 </script>
@@ -53,7 +93,9 @@ onMounted(() => {
       <div
         class="message-modal__container bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6 relative"
       >
-        <h2 class="text-xl font-bold mb-4" style="color: var(--border-color)">Nova mensagem</h2>
+        <h2 class="text-xl font-bold mb-4" style="color: var(--border-color)">
+          Nova mensagem
+        </h2>
         <p style="color: var(--secondary-text-color); margin-bottom: 0.5rem">
           Selecione o provedor para ser enviado.
         </p>
@@ -64,17 +106,23 @@ onMounted(() => {
             :channel="channel"
             v-for="channel in channels"
             :key="channel"
-            :selected="selectedChannel === channel"
+            :selected="formData.channel === channel"
             :title="`Veja suas mensagens do ${channel}!`"
             :disabled="loading"
             @click="changeChannel(channel)"
           />
         </div>
-        <select :disabled="loading" name="" id="" class="message-modal__contacts">
+        <select
+          :disabled="loading"
+          name=""
+          id=""
+          class="message-modal__contacts"
+          v-model="formData.contact_id"
+        >
           <option value="" selected disabled>Selecione um contato...</option>
-          <option value="">Contato 1</option>
-          <option value="">Contato 2</option>
-          <option value="">Contato 3</option>
+          <option :value="contact.id" v-for="contact in contacts">
+            {{ contact.name }}
+          </option>
         </select>
 
         <textarea
@@ -84,13 +132,18 @@ onMounted(() => {
           id=""
           rows="4"
           placeholder="Escreva aqui sua mensagem..."
+          v-model="formData.message"
         />
 
         <!-- Ações -->
         <div style="gap: 1rem" class="flex justify-end space-x-2">
           <button
-            @click="emit('close')"
-            style="border: 1px solid var(--secondary-text-color); background-color: var(--white); color: var(--secondary-text-color)"
+            @click="closeModal"
+            style="
+              border: 1px solid var(--secondary-text-color);
+              background-color: var(--white);
+              color: var(--secondary-text-color);
+            "
             class="message-modal__button px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
             :disabled="loading"
           >

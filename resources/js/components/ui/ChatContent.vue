@@ -16,7 +16,7 @@ function formateDate(param) {
 
 <template>
   <div class="chat-content">
-    <div class="chat-content__divider">Hoje</div>
+    <!-- <div class="chat-content__divider">Hoje</div> -->
 
     <div :key="message.message" v-for="message in store.messages">
       <div v-if="message.origin === 'received'" class="chat-content__row">
