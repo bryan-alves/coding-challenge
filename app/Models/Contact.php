@@ -14,6 +14,11 @@ class Contact extends Model
         return $this->belongsTo(Channel::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function lastMessage()
     {
         return $this->hasOne(Message::class)

@@ -16,4 +16,14 @@ class Message extends Model
         'is_read',
         'origin'
     ];
+
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
