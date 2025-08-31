@@ -15,8 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ChannelsTableSeeder::class,
-            ContactsTableSeeder::class,
-            MessagesTableSeeder::class,
+            UsersTableSeeder::class,
         ]);
     }
 }
