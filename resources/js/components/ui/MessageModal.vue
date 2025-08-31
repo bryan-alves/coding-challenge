@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { useGlobalStore } from "@/stores/global";
 import { Inertia } from "@inertiajs/inertia";
 import ChannelsBadge from "@/components/ui/ChannelsBadge.vue";
@@ -8,6 +8,7 @@ const emit = defineEmits(["close"]);
 
 const props = defineProps({
   channels: Array,
+  modalContacts: Array,
 });
 
 const store = useGlobalStore();
@@ -18,29 +19,26 @@ const loading = ref(false);
 const formData = reactive({
   channel: "",
   message: "",
-  contact_id: 1,
+  contact_id: "",
 });
 
 const contacts = ref([]);
 
-function changeChannel(channel) {
+function changeChannel(channel,) {
   if (loading.value) return;
 
   formData.channel = channel;
 
-  Inertia.get(
-    "/",
-    { modalChannel: channel },
-    {
-      preserveState: true,
-      preserveScroll: true,
-      onSuccess: () => {
-      },
-      onError: ({ error }) => {
-        alert(error);
-      },
-    }
-  );
+  Inertia.get("/", store.mergeQueryParams({ modalChannel: channel }), {
+    preserveState: true,
+    preserveScroll: true,
+    onSuccess: () => {
+      contacts.value = props.modalContacts;
+    },
+    onError: ({ error }) => {
+      alert(error);
+    },
+  });
 }
 
 function closeModal() {
@@ -61,27 +59,20 @@ async function sendMessage() {
     return alert("Selecione o contato");
   }
 
-  if (!formData.message) {
+  if (!formData.message.trim()) {
     loading.value = false;
     return alert("Preencha a mensagem");
   }
 
-  await store.sendMessage(formData.message, formData.contact_id);
+  await store.sendMessage(formData.message, formData.contact_id, () => {});
 
   formData.message = "";
-
   closeModal();
 
-  store.changeContact(formData.contact_id);
-
+  await store.changeChannel(formData.channel, () => {});
+  await store.changeContact(formData.contact_id);
   loading.value = false;
 }
-
-onMounted(() => {
-  if (props?.channels.includes(store.selectedChannel)) {
-    formData.channel = store.selectedChannel;
-  }
-});
 </script>
 
 <template>

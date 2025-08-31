@@ -15,47 +15,16 @@ class ChatController extends Controller
     public function index(Request $request)
     {
         try {
-            $channels = Channel::pluck('name')->toArray();
-
-            $contactsQuery = Contact::with(['channel', 'lastMessage'])
-                ->withCount([
-                    'unreadMessages as unread_messages_count' => function ($query) {
-                        $query->where('origin', 'received');
-                    }
-                ]);
-
-            $selectedChannel = $request->query('channel', 'all');
-
-            if ($selectedChannel !== 'all') {
-                $channelId = Channel::where('name', $selectedChannel)->value('id');
-
-                if ($channelId) {
-                    $contactsQuery->where('channel_id', $channelId);
-                }
+            if ($request->modalChannel) {
+                return $this->modalContacts($request);
             }
 
-            $contacts = $contactsQuery->get();
-
-            $messages = [];
-
-            if ($request->contact_id) {
-                $messages = Message::where('contact_id', $request->contact_id)
-                    ->orderBy('id', 'desc')
-                    ->paginate(20);
-            }
-
-            return Inertia::render('Index', [
-                'contacts' => $contacts,
-                'channels' => $channels,
-                'selectedChannel' => $selectedChannel,
-                'messages' => $messages
-            ]);
-        } catch(Exception $e) {
-            \Log::error("Erro ao listar mensagens", [
+            return Inertia::render('Index', $this->getIndexData($request));
+        } catch (Exception $e) {
+            Log::error("Erro ao listar mensagens", [
                 'exception' => $e->getMessage(),
                 'request' => $request->all()
             ]);
-
             return back()->withErrors([
                 'error' => 'Não foi possível listar as mensagens!'
             ]);
@@ -125,5 +94,77 @@ class ChatController extends Controller
                 'error' => 'Não foi possível enviar a mensagem, tente novamente!'
             ]);
         }
+    }
+
+    public function modalContacts(Request $request)
+    {
+        try {
+            if (!$request->has('modalChannel') || empty($request->modalChannel)) {
+                throw new Exception("channel é obrigatório");
+            }
+
+            $modalChannel = $request->query('modalChannel');
+
+            $contactsQuery = Contact::with('channel');
+
+            $channelId = Channel::where('name', $modalChannel)->value('id');
+            if ($channelId) {
+                $contactsQuery->where('channel_id', $channelId);
+            }
+
+            $modalContacts = $contactsQuery->get();
+
+            $pageData = $this->getIndexData($request);
+
+            $pageData['modalContacts'] = $modalContacts;
+
+            return Inertia::render('Index', $pageData);
+
+        } catch (Exception $e) {
+            Log::error("Erro ao buscar contatos do modal", [
+                'exception' => $e->getMessage(),
+                'request' => $request->all()
+            ]);
+            return back()->withErrors([
+                'error' => 'Não foi possível carregar os contatos do modal.'
+            ]);
+        }
+    }
+
+    private function getIndexData(Request $request)
+    {
+        $channels = Channel::pluck('name')->toArray();
+
+        $contactsQuery = Contact::with(['channel', 'lastMessage'])
+            ->withCount([
+                'unreadMessages as unread_messages_count' => function ($query) {
+                    $query->where('origin', 'received');
+                }
+            ]);
+
+        $selectedChannel = $request->query('channel', 'all');
+
+        if ($selectedChannel !== 'all') {
+            $channelId = Channel::where('name', $selectedChannel)->value('id');
+            if ($channelId) {
+                $contactsQuery->where('channel_id', $channelId);
+            }
+        }
+
+        $contacts = $contactsQuery->get();
+
+        $messages = [];
+        if ($request->contact_id) {
+            $messages = Message::where('contact_id', $request->contact_id)
+                ->orderBy('id', 'desc')
+                ->paginate(20);
+        }
+
+        return [
+            'contacts' => $contacts,
+            'channels' => $channels,
+            'selectedChannel' => $selectedChannel,
+            'messages' => $messages,
+        ];
     }
 }
