@@ -2,6 +2,16 @@
 import { useGlobalStore } from "@/stores/global";
 
 const store = useGlobalStore();
+
+function formateDate(param) {
+  if (!param) return;
+  const date = new Date(param);
+
+  return `${date.toLocaleDateString("pt-BR")} ${date.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
+}
 </script>
 
 <template>
@@ -14,7 +24,7 @@ const store = useGlobalStore();
           <div class="chat-content__text">
             {{ message.message }}
           </div>
-          <div class="chat-content__time">09:31</div>
+          <div class="chat-content__time">{{ formateDate(message.created_at) }}</div>
         </div>
       </div>
       <div
@@ -29,7 +39,7 @@ const store = useGlobalStore();
             {{ message.message }}
           </div>
           <div class="chat-content__time">
-            09:32
+            {{ formateDate(message.created_at) }}
             <span class="chat-content__checks">
               <span class="chat-content__check chat-content__read"></span
               ><span class="chat-content__check chat-content__read"></span>
