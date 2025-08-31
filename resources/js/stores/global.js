@@ -30,6 +30,10 @@ export const useGlobalStore = defineStore("global", {
         return
       };
 
+      if (contactId === this.selectedContact) {
+        return;
+      }
+
       this.selectedContact = contactId;
       this.selectedContactName = contactName;
       this.selectedContactPhoto = contactPhoto;
