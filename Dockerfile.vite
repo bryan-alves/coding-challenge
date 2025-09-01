@@ -1,0 +1,18 @@
+# Node 18 (ou 20 se preferir)
+FROM node:20
+
+# Definir diretório de trabalho
+WORKDIR /var/www/html
+
+# Copiar package.json e instalar dependências Node
+COPY package*.json ./
+RUN npm install
+
+# Copiar restante do projeto
+COPY . .
+
+# Porta padrão do Vite
+EXPOSE 5173
+
+# Rodar o script dev do package.json
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

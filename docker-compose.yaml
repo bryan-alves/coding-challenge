@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   pipelead-db:
     image: mysql:8.0.29
@@ -16,18 +18,15 @@ services:
     networks:
       - pipelead
 
-  pipelead-app:
+  pipelead-php:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: pipelead-app
+      dockerfile: Dockerfile.php
+    container_name: pipelead-php
     ports:
       - 8000:8000
-      - 5173:5173
     volumes:
       - ./:/var/www/html
-      - /var/www/html/vendor
-      - /var/www/html/node_modules
     networks:
       - pipelead
     depends_on:
@@ -37,11 +36,26 @@ services:
              php artisan key:generate &&
              php artisan migrate --force &&
              php artisan db:seed &&
-             php artisan serve --host=0.0.0.0 --port=8000 &
-             npm run dev -- --host 0.0.0.0"
+             php artisan serve --host=0.0.0.0 --port=8000"
+
+  pipelead-vite:
+    build:
+      context: .
+      dockerfile: Dockerfile.vite
+    container_name: pipelead-vite
+    ports:
+      - 5173:5173
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/node_modules
+    networks:
+      - pipelead
+    depends_on:
+      - pipelead-php
+    command: npm run dev -- --host 0.0.0.0
 
 volumes:
-  db_pipelead: {}
+  db_pipelead:
 
 networks:
-  pipelead: null
+  pipelead:
