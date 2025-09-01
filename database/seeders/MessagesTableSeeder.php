@@ -7,8 +7,17 @@ use App\Models\Message;
 
 class MessagesTableSeeder extends Seeder
 {
-    public function run(): void
+
+    public function run($count = 5, $contactId = null): void
     {
-        Message::factory(50)->create();
+        $factory = Message::factory($count);
+
+        if ($contactId) {
+            $factory->create([
+                'contact_id' => $contactId,
+            ]);
+        } else {
+            $factory->create();
+        }
     }
 }
