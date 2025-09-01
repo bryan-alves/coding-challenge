@@ -40,49 +40,44 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .theme-toggle {
-  position: absolute;
+  @apply absolute;
   right: 32px;
   top: 30px;
+}
 
-  &__checkbox {
-    opacity: 0;
-    position: absolute;
-  }
+.theme-toggle__checkbox {
+  @apply absolute opacity-0;
+}
 
-  &__label {
-    background-color: var(--primary-text-color);
-    border-radius: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px;
-    position: relative;
-    height: 22px;
-    width: 42px;
-    transform: scale(1.5);
-  }
+.theme-toggle__label {
+  @apply flex items-center justify-between rounded-full cursor-pointer relative;
+  background-color: var(--primary-text-color);
+  padding: 5px;
+  height: 22px;
+  width: 42px;
+  transform: scale(1.5);
+}
 
-  &__ball {
-    background-color: var(--white);
-    border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    height: 18px;
-    width: 18px;
-    transform: translateX(0px);
-    transition: transform 0.2s linear;
+.theme-toggle__ball {
+  @apply absolute rounded-full;
+  background-color: var(--white);
+  top: 2px;
+  left: 2px;
+  height: 18px;
+  width: 18px;
+  transform: translateX(0px);
+  transition: transform 0.2s linear;
+}
 
-    &--dark {
-      background-color: #000;
-    }
-  }
+.theme-toggle__ball--dark {
+  background-color: #000;
+}
 
-  &__checkbox:checked + &__label &__ball {
-    transform: translateX(20px);
-  }
+.theme-toggle__checkbox:checked + .theme-toggle__label .theme-toggle__ball {
+  transform: translateX(20px);
 }
 </style>

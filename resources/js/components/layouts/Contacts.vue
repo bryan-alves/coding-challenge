@@ -12,24 +12,24 @@ const props = defineProps({
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .contacts {
-  overflow-y: auto;
-  max-height: calc(100% - 80px);
-  margin-top: -8px;
+  @apply overflow-y-auto max-h-[calc(100%-80px)] -mt-2;
+}
 
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
+.contacts::-webkit-scrollbar {
+  width: 4px;
+}
 
-  &::-webkit-scrollbar-track {
-    background: var(--primary-gray-color);
-  }
+.contacts::-webkit-scrollbar-track {
+  background: var(--primary-gray-color);
+}
 
-  &::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 5px;
-    width: 20px;
-  }
+.contacts::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 5px;
+  width: 20px;
 }
 </style>

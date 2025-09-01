@@ -33,33 +33,31 @@ function closeChat() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .content {
-  width: 100%;
-  position: relative;
+  @apply w-full relative;
   background: var(--content-background-color);
-
-  &__body {
-    height: 100%;
-  }
-
-  &__close {
-    position: absolute;
-    right: 100px;
-    top: 24px;
-    cursor: pointer;
-  }
-
-  &__empty {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  input:focus {
-    border-color: var(--border-color);
-    outline: none;
-  }
 }
+
+.content__body {
+  @apply h-full;
+}
+
+.content__close {
+  @apply absolute cursor-pointer;
+  right: 100px;
+  top: 24px;
+}
+
+.content__empty {
+  @apply h-full flex items-center justify-center;
+}
+
+.content input:focus {
+  border-color: var(--border-color);
+  outline: none;
+}
+
 </style>

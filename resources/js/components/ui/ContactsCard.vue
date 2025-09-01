@@ -54,89 +54,69 @@ function formateDate(param) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .contacts-card {
-  p {
-    color: var(--secondary-text-color);
-  }
-
-  display: flex;
-  gap: 0.75rem;
-  padding: 10px 32px;
-
-  &:hover {
-    background: var(--contact-hover-color);
-    cursor: pointer;
-  }
-
-  &--selected {
-    background: var(--contact-hover-color) !important;
-  }
-
-  &__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  &__title {
-    display: flex;
-    align-items: center;
-
-    h6 {
-      color: var(--primary-text-color);
-      font-size: 18px;
-    }
-  }
-
-  &__body {
-    width: 100%;
-  }
-
-  &__photo {
-    width: 56px;
-    min-width: 56px;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-
-  &__content {
-    display: flex;
-    align-items: center;
-  }
-
-  &__header {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__date {
-    font-size: 12px;
-    color: var(--secondary-text-color);
-  }
-
-  &__last-message {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 340px;
-  }
-
-  &__unread-message {
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--unread-message-color);
-
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    color: var(--white);
-    font-weight: 700;
-  }
+  @apply flex gap-3 px-8 py-[10px];
 }
+
+.contacts-card p {
+  color: var(--secondary-text-color);
+}
+
+.contacts-card:hover {
+  background: var(--contact-hover-color);
+  cursor: pointer;
+}
+
+.contacts-card--selected {
+  background: var(--contact-hover-color) !important;
+}
+
+.contacts-card__container {
+  @apply flex items-center justify-between w-full;
+}
+
+.contacts-card__title {
+  @apply flex items-center;
+}
+
+.contacts-card__title h6 {
+  color: var(--primary-text-color);
+  font-size: 18px;
+}
+
+.contacts-card__body {
+  @apply w-full;
+}
+
+.contacts-card__photo {
+  @apply w-14 min-w-14 rounded-full overflow-hidden;
+}
+
+.contacts-card__content {
+  @apply flex items-center;
+}
+
+.contacts-card__header {
+  @apply flex items-center justify-between w-full;
+}
+
+.contacts-card__date {
+  font-size: 12px;
+  color: var(--secondary-text-color);
+}
+
+.contacts-card__last-message {
+  @apply truncate max-w-[340px];
+}
+
+.contacts-card__unread-message {
+  @apply flex items-center justify-center rounded-full w-5 h-5 font-bold;
+  background: var(--unread-message-color);
+  color: var(--white);
+  font-size: 12px;
+}
+
 </style>

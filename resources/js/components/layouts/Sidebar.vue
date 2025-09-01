@@ -4,11 +4,10 @@
   </div>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
 .sidebar {
-  width: 100%;
+  @apply w-full max-w-[497px];
   max-height: calc(100vh - 80px);
   min-height: calc(100vh - 80px);
-  max-width: 497px;
 }
 </style>

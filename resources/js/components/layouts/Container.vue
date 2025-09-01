@@ -4,13 +4,10 @@
   </div>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .container {
-  width: 100%;
-  max-width: 100% !important;
-  display: flex;
-  min-height: 100vh;
-  height: 100%;
-  background: var(--container-background-color);
+  @apply w-full max-w-full flex min-h-screen h-full bg-[var(--container-background-color)];
 }
 </style>

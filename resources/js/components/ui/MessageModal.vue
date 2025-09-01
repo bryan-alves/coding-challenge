@@ -154,80 +154,61 @@ async function sendMessage() {
   </transition>
 </template>
 
-<style lang="scss">
+<style scoped>
+@reference "tailwindcss";
+
 .message-modal {
   background: var(--shadow-modal-color);
+}
 
-  &__button {
-    &:disabled {
-      background-color: var(--disabled-color) !important;
-      border: 0px !important;
-      color: var(--white) !important;
-    }
-  }
+.message-modal__button:disabled {
+  background-color: var(--disabled-color) !important;
+  border: 0 !important;
+  color: var(--white) !important;
+}
 
-  &__contacts {
-    color: var(--secondary-text-color);
-    margin-top: 1rem;
-    display: block;
-    height: 35px;
-    border-radius: 4px;
-    width: 450px;
-    margin-bottom: 1rem;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid var(--disabled-color);
-    outline: 0;
+.message-modal__contacts {
+  @apply block mt-4 mb-4 h-[35px] rounded text-sm px-2 w-[450px];
+  color: var(--secondary-text-color);
+  border: 1px solid var(--disabled-color);
+  outline: 0;
+}
 
-    &:disabled {
-      background-color: var(--disabled-color);
-    }
+.message-modal__contacts:disabled {
+  background-color: var(--disabled-color);
+}
 
-    &:focus-visible {
-      border-color: var(--border-color);
-    }
-  }
+.message-modal__contacts:focus-visible {
+  border-color: var(--border-color);
+}
 
-  &__message {
-    color: var(--secondary-text-color);
-    border-radius: 6px;
-    font-size: 15px;
-    width: 450px;
-    margin-bottom: 1.5rem;
-    border: 1px solid var(--disabled-color);
-    padding: 8px;
-    outline: none;
+.message-modal__message {
+  @apply mb-6 rounded px-2 w-[450px];
+  color: var(--secondary-text-color);
+  font-size: 15px;
+  border: 1px solid var(--disabled-color);
+  outline: none;
+}
 
-    &:disabled {
-      background-color: var(--disabled-color);
-    }
+.message-modal__message:disabled {
+  background-color: var(--disabled-color);
+}
 
-    &:focus-visible {
-      border-color: var(--border-color);
-    }
-  }
+.message-modal__message:focus-visible {
+  border-color: var(--border-color);
+}
 
-  &__channels {
-    display: flex;
-    gap: 1rem;
-    padding: 10px 17px;
-    padding-bottom: 0px;
-    border-radius: 10px;
+.message-modal__channels {
+  @apply flex gap-4 px-[17px] pt-[10px] pb-0 rounded-[10px];
+}
 
-    &--disabled {
-      background-color: var(--disabled-color);
-    }
-  }
+.message-modal__channels--disabled {
+  background-color: var(--disabled-color);
+}
 
-  &__container {
-    background: var(--modal-background-color);
-    padding: 20px;
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.message-modal__container {
+  @apply flex flex-col items-center w-full p-5 max-w-[600px];
+  background: var(--modal-background-color);
 }
 
 .spinner {

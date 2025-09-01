@@ -59,48 +59,43 @@ function capitalizeFirstLetter(str) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .channels-badge {
-  padding: 8px 12px;
-  cursor: pointer;
-  display: flex;
-  border: 1px solid var(--channel-badge-border-color);
-  border-radius: 100px;
-  min-width: fit-content;
-  gap: 0.5rem;
-  align-items: center;
-  font-weight: 400;
+  @apply flex items-center gap-2 px-3 py-2 cursor-pointer rounded-full border font-normal min-w-fit;
+  border-color: var(--channel-badge-border-color);
+}
 
-  span {
-    font-size: 14px;
-    color: var(--channel-badge-text-color);
-  }
+.channels-badge span {
+  @apply text-sm;
+  color: var(--channel-badge-text-color);
+}
 
-  &--small {
-    gap: 0.25rem;
-    padding: 4px 6px;
+.channels-badge--small {
+  @apply gap-1 px-1.5 py-1;
+}
 
-    span {
-      font-size: 12px;
-    }
-  }
+.channels-badge--small span {
+  @apply text-xs;
+}
 
-  &--selected {
-    background: var(--selected-background-color);
-    border: 1px solid var(--border-color);
+.channels-badge--selected {
+  @apply border;
+  background: var(--selected-background-color);
+  border-color: var(--border-color);
+}
 
-    span {
-      color: var(--selected-channel-color);
-    }
+.channels-badge--selected span {
+  color: var(--selected-channel-color);
+}
 
-    svg {
-      color: var(--selected-channel-color) !important;
-    }
-  }
+.channels-badge--selected svg {
+  color: var(--selected-channel-color) !important;
+}
 
-  &--disabled {
-    background-color: var(--disabled-color) !important;
-    border: 0;
-  }
+.channels-badge--disabled {
+  background-color: var(--disabled-color) !important;
+  border: 0;
 }
 </style>

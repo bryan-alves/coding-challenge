@@ -30,61 +30,48 @@ const store = useGlobalStore();
   </div>
 </template>
 
-<style lang="scss">
+<style scoped>
+@reference "tailwindcss";
+
 .channels {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  padding: 0px 30px 10px;
-  border-radius: 10px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  @apply relative flex items-center justify-between mb-2 px-[30px] pb-[10px] rounded-[10px] overflow-x-auto overflow-y-hidden;
+}
 
-  &__container {
-    display: flex;
-    gap: 0.5rem;
-    padding-right: 55px;
-  }
+.channels__container {
+  @apply flex gap-2 pr-[55px];
+}
 
-  &__item {
-    padding: 8px 12px;
-    cursor: pointer;
-    display: flex;
-    border: 1px solid var(--primary-gray-color);
-    border-radius: 100px;
-    min-width: fit-content;
-    gap: 0.5rem;
-    align-items: center;
+.channels__item {
+  @apply flex items-center gap-2 px-3 py-2 cursor-pointer border rounded-full min-w-fit;
+  border-color: var(--primary-gray-color);
+}
 
-    span {
-      font-size: 14px;
-      color: var(--secondary-text-color);
-    }
+.channels__item span {
+  @apply text-sm;
+  color: var(--secondary-text-color);
+}
 
-    &--selected {
-      background: var(--selected-background-color);
-      border: 1px solid var(--border-color);
+.channels__item--selected {
+  @apply border;
+  background: var(--selected-background-color);
+  border-color: var(--border-color);
+}
 
-      span {
-        color: var(--selected-channel-color);
-      }
-    }
-  }
+.channels__item--selected span {
+  color: var(--selected-channel-color);
+}
 
-  &::-webkit-scrollbar {
-    height: 4px;
-  }
+.channels::-webkit-scrollbar {
+  height: 4px;
+}
 
-  &::-webkit-scrollbar-track {
-    background: var(--primary-gray-color);
-  }
+.channels::-webkit-scrollbar-track {
+  background: var(--primary-gray-color);
+}
 
-  &::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 5px;
-    width: 20px;
-  }
+.channels::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 5px;
+  width: 20px;
 }
 </style>

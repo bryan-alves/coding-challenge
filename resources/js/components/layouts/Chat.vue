@@ -70,81 +70,60 @@ onMounted(async () => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .chat {
-  height: 100%;
-  &__content {
-    max-height: calc(100vh - 180px);
-    height: 100%;
-    overflow-y: auto;
-    padding: 32px;
+  @apply h-full;
+}
 
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
+.chat__content {
+  @apply h-full overflow-y-auto p-8 max-h-[calc(100vh-180px)];
+}
 
-    &::-webkit-scrollbar-track {
-      background: var(--primary-gray-color);
-    }
+.chat__content::-webkit-scrollbar {
+  width: 8px;
+}
 
-    &::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 5px;
-      width: 20px;
-    }
-  }
+.chat__content::-webkit-scrollbar-track {
+  background: var(--primary-gray-color);
+}
 
-  &__header {
-    padding: 0px 32px;
-    background: var(--chat-header-color);
-    height: 80px;
-    display: flex;
-    align-items: center;
-  }
+.chat__content::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 5px;
+  width: 20px;
+}
 
-  &__photo {
-    width: 56px;
-    min-width: 56px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 1rem;
-  }
+.chat__header {
+  @apply flex items-center h-20 px-8;
+  background: var(--chat-header-color);
+}
 
-  &__contact {
-    display: flex;
-    align-items: center;
-    color: var(--primary-text-color);
-    font-size: 18px;
-  }
+.chat__photo {
+  @apply w-14 min-w-14 rounded-full overflow-hidden mr-4;
+}
 
-  &__bottom {
-    padding: 20px 32px;
-  }
+.chat__contact {
+  @apply flex items-center text-lg;
+  color: var(--primary-text-color);
+}
 
-  &__send {
-    height: 60px;
-    padding: 10px 20px 10px 20px;
-    background: var(--white);
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
+.chat__bottom {
+  @apply px-8 py-5;
+}
 
-    input {
-      outline: 0;
-      width: 100%;
-      height: 100%;
-    }
-  }
+.chat__send {
+  @apply flex items-center h-[60px] px-5 py-2.5 rounded-[50px];
+  background: var(--white);
+}
 
-  &__btn {
-    cursor: pointer;
-    background: var(--selected-background-color);
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.chat__send input {
+  @apply w-full h-full outline-0;
+}
+
+.chat__btn {
+  @apply flex items-center justify-center h-10 w-10 rounded-full cursor-pointer;
+  background: var(--selected-background-color);
 }
 </style>
