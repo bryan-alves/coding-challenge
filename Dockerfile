@@ -2,7 +2,7 @@
 FROM php:8.2-fpm
 
 # Instalar dependências do sistema e PHP
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y npm \
     git zip unzip libpng-dev libonig-dev libxml2-dev curl \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
