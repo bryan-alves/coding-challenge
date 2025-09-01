@@ -46,6 +46,7 @@ export const useGlobalStore = defineStore("global", {
       this.selectedContact = contactId;
       this.selectedContactName = contactName;
       this.selectedContactPhoto = contactPhoto;
+      this.messagesPage = 1;
       this.messages = [];
 
       return new Promise((resolve, reject) => {
