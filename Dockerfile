@@ -14,6 +14,3 @@ WORKDIR /var/www/html
 
 # Copiar restante do projeto Laravel
 COPY . .
-
-# Instalar dependências PHP
-RUN composer install
