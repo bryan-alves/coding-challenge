@@ -27,7 +27,6 @@ services:
     volumes:
       - ./:/var/www/html
       - /var/www/html/vendor
-      - /var/www/html/node_modules
     networks:
       - pipelead
     depends_on:
