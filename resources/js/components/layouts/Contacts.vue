@@ -14,7 +14,7 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .contacts {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: calc(100% - 80px);
   margin-top: -8px;
 
