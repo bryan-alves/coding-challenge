@@ -13,7 +13,7 @@ let loadingOldMessages = false;
 
 const onScroll = async () => {
   const el = chatContentRef.value;
-  if (el.scrollTop === 0 && store.hasMoreMessages && !loadingOldMessages) {
+  if (el.scrollTop < 10 && store.hasMoreMessages && !loadingOldMessages) {
     loadingOldMessages = true;
 
     const previousHeight = el.scrollHeight;
