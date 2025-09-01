@@ -11,9 +11,9 @@
 6. ✅ **Entrar no container da aplicação:** docker exec -it pipelead-app bash;
 7. ✅ **Comando para gerar os contatos:** php artisan contacts:generate (Irá gerar 20 contatos);
 8. ✅ **Comando para gerar os mensagens:** Usar um dos comandos abaixo. Obs: há 2 parametros, count(quantidade mensagens) e contact(contato que as mensagens serão vinculadas), exemplos:
-8. 1. php artisan messages:generate (Irá gerar 10 mensagens para contato aleatórios);
-8. 2. php artisan messages:generate 15 (Irá gerar 15 mensagens para diversos contatos);
-8. 3. php artisan messages:generate 1 --contact=1 (Irá gerar 1 mensagens para o contato de id 1); (Recomendo esse para testar melhor o Polling)
+8.1. php artisan messages:generate (Irá gerar 10 mensagens para contato aleatórios);
+8.2. php artisan messages:generate 15 (Irá gerar 15 mensagens para diversos contatos);
+8.3. php artisan messages:generate 1 --contact=1 (Irá gerar 1 mensagens para o contato de id 1); (Recomendo esse para testar melhor o Polling)
 
 ## 📋 Informações
 
