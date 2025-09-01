@@ -36,6 +36,7 @@ export const useGlobalStore = defineStore("global", {
         this.selectedContactName = '';
         this.selectedContactPhoto = '';
         this.messages = [];
+        this.stopPolling();
         return Promise.resolve();
       }
 
@@ -48,6 +49,10 @@ export const useGlobalStore = defineStore("global", {
       this.selectedContactPhoto = contactPhoto;
       this.messagesPage = 1;
       this.messages = [];
+
+      this.stopPolling();
+
+      this.startPolling();
 
       return new Promise((resolve, reject) => {
         Inertia.post(
@@ -84,30 +89,37 @@ export const useGlobalStore = defineStore("global", {
         this.messages = [];
       }
 
+      const pageToLoad = forPolling ? 1 : this.messagesPage;
+
       if (!this.hasMoreMessages && !forPolling) return;
 
       return new Promise((resolve) => {
         Inertia.get(
           '/',
-          this.mergeQueryParams({ contact_id: this.selectedContact, page: this.messagesPage }, ['modalChannel']),
+          this.mergeQueryParams({ contact_id: this.selectedContact, page: pageToLoad }, ['modalChannel']),
           {
             preserveState: true,
             preserveScroll: true,
             replace: true,
             onSuccess: (page) => {
               const newMessages = page.props.messages.data.reverse();
-
+              console.log(newMessages)
               if (forPolling) {
                 const existingIds = this.messages.map(m => m.id);
                 const messagesToAdd = newMessages.filter(m => !existingIds.includes(m.id));
                 this.messages = [...this.messages, ...messagesToAdd];
-              } else if (forScrollTop) {
-                if (newMessages.length === 0) this.hasMoreMessages = false;
-                this.messages = [...newMessages, ...this.messages];
-                this.messagesPage++;
+              }else if (forScrollTop) {
+                if (newMessages.length === 0) {
+                  this.hasMoreMessages = false;
+                } else {
+                  const existingIds = this.messages.map(m => m.id);
+                  const uniqueMessages = newMessages.filter(m => !existingIds.includes(m.id));
+                  this.messages = [...uniqueMessages, ...this.messages];
+                  this.messagesPage++;
+                }
               } else if (reset) {
                 this.messages = [...newMessages];
-                this.messagesPage++;
+                this.messagesPage = 2;
               }
 
               resolve();
