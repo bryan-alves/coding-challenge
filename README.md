@@ -3,7 +3,7 @@
 ## 🎯 Como subir o projeto
 ### Obs.: Necessário ter o docker instalado;
 
-1. ✅ **Acesse o terminal para rodar os comandos seguintes;**
+1. ✅ **Acesse o terminal para rodar os seguintes comandos:**
 2. ✅ **Clonar projeto e acessar diretório:** git clone git@github.com:bryan-alves/coding-challenge.git && cd coding-challenge;
 3. ✅ **Baixar e acessar branch do desafio:** git fetch origin bryan-alves && git checkout bryan-alves;
 4. ✅ **Configurar .env:** Linux / Mac: cp .env.example .env; Windows: copy .env.example .env;
