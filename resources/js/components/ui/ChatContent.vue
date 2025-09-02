@@ -95,6 +95,7 @@ function formateDate(param) {
 
 .chat-content__sent {
   border-top-right-radius: 4px;
+  margin-bottom: .25rem;
 }
 
 .chat-content__checks {
@@ -119,6 +120,7 @@ function formateDate(param) {
 .chat-content__received {
   background: var(--primary-background-color);
   border-top-left-radius: 4px;
+  margin-bottom: .5rem;
 }
 
 </style>
