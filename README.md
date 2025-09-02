@@ -30,3 +30,14 @@
 11. Foi utilizado o padrão BEM no css;
 12. Foi utilizado o commilit para validação dos commits;
 13. Foi utilizado docker para proporcionar um ambiente consistente;
+14. O carregamento das mensagens com Polling é de 3 segundos
+
+## 📋 Possíveis melhorias futuras
+
+1. Incluir transitions;
+2. Incluir loadings nas mensagens;
+3. Filtro de contato e mensagens;
+4. Cadastro de contatos;
+5. Ir aumentando o tempo de Polling conforme não chegue novas mensagens;
+6. Ser responsivo(apesar do Whatsapp Web ser somente para Desktop);
+7. Inclusão de Testes no Front-end com Jest/Cypress e no Back-end com Pest;

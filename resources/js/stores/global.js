@@ -103,7 +103,7 @@ export const useGlobalStore = defineStore("global", {
             replace: true,
             onSuccess: (page) => {
               const newMessages = page.props.messages.data.reverse();
-              console.log(newMessages)
+
               if (forPolling) {
                 const existingIds = this.messages.map(m => m.id);
                 const messagesToAdd = newMessages.filter(m => !existingIds.includes(m.id));
@@ -132,7 +132,7 @@ export const useGlobalStore = defineStore("global", {
       this.stopPolling();
       this.pollingInterval = setInterval(() => {
         this.fetchMessages(false, true);
-      }, 5000);
+      }, 3000);
     },
     stopPolling() {
       if (this.pollingInterval) {
