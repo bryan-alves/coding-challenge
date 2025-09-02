@@ -18,8 +18,8 @@
 ## 📋 Informações
 
 1. Inspirado no Whatsapp Web;
-2. Modo dark/light implementado, utilizando variaveis no css;
-3. Foi implementado o modal de caixa de envio, onde é possível selecionar o canal e os seus respectivos contatos para o envio da mensagem;
+2. Modo dark/light implementado;
+3. Modal de caixa de envio implementado, onde é possível selecionar o canal e os seus respectivos contatos para o envio da mensagem;
 4. Mas também é possível enviar uma mensagem selecionando a conversa com um contato;
 5. É possível enviar uma mensagem apertando enter;
 6. É possível fechar uma mensagem apertando esc;
